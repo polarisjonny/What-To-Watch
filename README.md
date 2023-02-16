@@ -92,7 +92,7 @@ tier1~ tier3의 권한 등급을 가지며, t3 등급은 게시글 삭제 권한
 기능들을 헤더 메뉴에서 보여주고 사용자의 입력을 통해 알맞은 기능의 UI를 출력합니다.
   
   
-## ⚙사용 기술
+## ⚙개발 
 ![image](https://user-images.githubusercontent.com/116703070/219295467-e341be43-4988-4c27-a91b-b6b9fc991274.png)
 
 
