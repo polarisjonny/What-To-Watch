@@ -13,7 +13,7 @@ public class UserData {
 	
 	@Override
 	public String toString() {
-		return "";
+		return " ";
 				
 	}
 

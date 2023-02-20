@@ -3,6 +3,7 @@ package whatToWatch.app.joinLoginFunc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserView {
@@ -145,7 +146,7 @@ public class UserView {
 	}
 	
 	//비밀번호 찾기 첫번째 단계(아이디, 핸드폰 번호, 이메일로 찾기)
-	public UserData findPwdInfoOneStep() throws Exception {
+	public UserData findPwdInfoOneStep() {
 		UserData data = new UserData();
 		
 		
@@ -165,7 +166,7 @@ public class UserView {
 	}
 	
 	
-	public UserData findPwdInfoTwoStep() throws Exception {
+	public UserData findPwdInfoTwoStep() {
 		UserData data = new UserData();
 		
 		System.out.print("아이디를 입력하세요 : ");
@@ -174,28 +175,34 @@ public class UserView {
 		String securityA = "";
 		data.setUserId(userId);
 		
-		Connection conn = JdbcTemplate.getConnection();
-		
-		String sql = "SELECT SECURITY_Q, SECURITY_A FROM PWD_QUESTION P JOIN MEMBER M ON P.SECURITY_Q_NO = M.SECURITY_Q_NO WHERE MEMBER_ID = ?";
-		
-		
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, userId);
-		ResultSet rs = pstmt.executeQuery();
-		
-		if(rs.next()) {
-			securityQ = rs.getString("SECURITY_Q");
-			data.setUserSecurityQ(securityQ);
-			securityA = rs.getString("SECURITY_A");
-			data.setUserSecurityA(securityA);
+		try {
+			Connection conn = JdbcTemplate.getConnection();
+			
+			String sql = "SELECT SECURITY_Q, SECURITY_A FROM PWD_QUESTION P JOIN MEMBER M ON P.SECURITY_Q_NO = M.SECURITY_Q_NO WHERE MEMBER_ID = ?";
+			
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				securityQ = rs.getString("SECURITY_Q");
+				data.setUserSecurityQ(securityQ);
+				securityA = rs.getString("SECURITY_A");
+				data.setUserSecurityA(securityA);
+			}
+			
+			System.out.print(securityQ);
+			String tempA = scanner.nextLine();
+			
+			data.setTempSecurityA(tempA);
+			
+			conn.close();
+		} catch(SQLException e) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		
-		System.out.print(securityQ);
-		String tempA = scanner.nextLine();
-		
-		data.setTempSecurityA(tempA);
-		
-		conn.close();
 		
 		return data;
 	}

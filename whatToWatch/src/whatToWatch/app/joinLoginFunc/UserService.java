@@ -3,238 +3,288 @@ package whatToWatch.app.joinLoginFunc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UserService {
 	
 	
 	//회원가입 기능
-	public void join() throws Exception {
+	public void join() {
 		//유저한테 회원가입 보여주고 입력받기
 		UserView uv = new UserView();
 		UserData data = uv.GetjoinInfo();
 		
-		Connection conn = JdbcTemplate.getConnection();
-		String sql = "INSERT INTO MEMBER(MEMBER_NO, SECURITY_Q_NO, STATE_CODE, MEMBER_ID, MEMBER_PWD, MEMBER_NICK, EMAIL, PHONE_NUMBER, SECURITY_A) VALUES(MEMBER_NO.NEXTVAL, ?, 1, ?, ?, ?, ?, ?, ?)";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		
-		int securityQNum = Integer.parseInt(data.getUserSecurityQ());
-		pstmt.setInt(1,  securityQNum);
-		pstmt.setString(2, data.getUserId());
-		pstmt.setString(3,  data.getUserPwd());
-		pstmt.setString(4, data.getUserNick());
-		pstmt.setString(5,  data.getUserEmail());
-		pstmt.setString(6, data.getUserPhoneNumber());
-		pstmt.setString(7, data.getUserSecurityA());
-		
-		int result = pstmt.executeUpdate();
-		
-		if(result == 1) {
-			System.out.println("회원가입 성공");
-		} else {
-			System.out.println("회원가입 실패");
+		try {
+			Connection conn = JdbcTemplate.getConnection();
+			String sql = "INSERT INTO MEMBER(MEMBER_NO, SECURITY_Q_NO, STATE_CODE, MEMBER_ID, MEMBER_PWD, MEMBER_NICK, EMAIL, PHONE_NUMBER, SECURITY_A) VALUES(MEMBER_NO.NEXTVAL, ?, 1, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			int securityQNum = Integer.parseInt(data.getUserSecurityQ());
+			pstmt.setInt(1,  securityQNum);
+			pstmt.setString(2, data.getUserId());
+			pstmt.setString(3,  data.getUserPwd());
+			pstmt.setString(4, data.getUserNick());
+			pstmt.setString(5,  data.getUserEmail());
+			pstmt.setString(6, data.getUserPhoneNumber());
+			pstmt.setString(7, data.getUserSecurityA());
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				System.out.println("회원가입 성공");
+			} else {
+				System.out.println("회원가입 실패");
+			}
+			
+			conn.close();
+			
+			
+		} catch(SQLException e) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		
-		conn.close();
 	}
 	
 	//로그인 기능
-	public void login() throws Exception {
+	public void login() {
 		UserView uv = new UserView();
 		UserData data = uv.GetLoginInfo();
 		
 		
-		Connection conn = JdbcTemplate.getConnection();
-		String sql = "SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NICK FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1,  data.getUserId());
-		pstmt.setString(2, data.getUserPwd());
-		ResultSet rs = pstmt.executeQuery();
-		
-		if(rs.next()) {
-			String nick = rs.getString("MEMBER_NICK");
-			System.out.println(nick+"님 환영합니다:)");
+		try {
+			Connection conn = JdbcTemplate.getConnection();
+			String sql = "SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NICK FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,  data.getUserId());
+			pstmt.setString(2, data.getUserPwd());
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				String nick = rs.getString("MEMBER_NICK");
+				System.out.println(nick+"님 환영합니다:)");
+			}
+			else {
+				System.out.println("로그인 실패");
+			}
+			
+			conn.close();
+		} catch(SQLException e) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		else {
-			System.out.println("로그인 실패");
-		}
-		
-		conn.close();
 	}
 	
 	
 	//아이디 찾기
-	public void findId() throws Exception {
+	public void findId() {
 		UserView uv = new UserView();
 		UserData data = uv.findIdInfo();
 		
-		Connection conn = JdbcTemplate.getConnection();
-		
-		String sql = "SELECT MEMBER_ID, MEMBER_NICK FROM MEMBER WHERE PHONE_NUMBER = ?";
-		
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, data.getUserPhoneNumber());
-		ResultSet rs = pstmt.executeQuery();
-		
-		if(rs.next()) {
-			String nick = rs.getString("MEMBER_NICK");
-			String userId = rs.getString("MEMBER_ID");
+		try {
+			Connection conn = JdbcTemplate.getConnection();
 			
-			System.out.println(nick+"님의 아이디는 "+userId+" 입니다.");
+			String sql = "SELECT MEMBER_ID, MEMBER_NICK FROM MEMBER WHERE PHONE_NUMBER = ?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, data.getUserPhoneNumber());
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				String nick = rs.getString("MEMBER_NICK");
+				String userId = rs.getString("MEMBER_ID");
+				
+				System.out.println(nick+"님의 아이디는 "+userId+" 입니다.");
+			}
+			
+			conn.close();
+		} catch(SQLException e) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		
-		conn.close();
 	}
 	
 	
 	//비밀번호 찾기
-	public void findPwd() throws Exception {
+	public void findPwd() {
 		UserView uv = new UserView();
 		UserData data = uv.findPwdInfoOneStep();
 		
-		Connection conn = JdbcTemplate.getConnection();
-		
-		String sql = "SELECT * FROM MEMBER WHERE MEMBER_ID = ?";
-		
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, data.getUserId());
-		
-		ResultSet rs = pstmt.executeQuery();
-		
-		while(rs.next()) {
-			String tempEmail = data.getUserEmail();
-			String email = rs.getString("EMAIL");
-			String tempPhoneNumber = data.getUserPhoneNumber();
-			String phoneNumber = rs.getString("PHONE_NUMBER");
-			String nick = rs.getString("MEMBER_NICK");
-			String password = rs.getString("MEMBER_PWD");
+		try {
+			Connection conn = JdbcTemplate.getConnection();
 			
-			if(tempEmail.equals(email) && tempPhoneNumber.equals(phoneNumber)) {
-				System.out.println(nick+"님의 비밀번호는 "+password+" 입니다.");
-			} else {
-				System.out.println("비밀번호 찾기 실패");
-				findPwd2();
+			String sql = "SELECT * FROM MEMBER WHERE MEMBER_ID = ?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, data.getUserId());
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String tempEmail = data.getUserEmail();
+				String email = rs.getString("EMAIL");
+				String tempPhoneNumber = data.getUserPhoneNumber();
+				String phoneNumber = rs.getString("PHONE_NUMBER");
+				String nick = rs.getString("MEMBER_NICK");
+				String password = rs.getString("MEMBER_PWD");
+				
+				if(tempEmail.equals(email) && tempPhoneNumber.equals(phoneNumber)) {
+					System.out.println(nick+"님의 비밀번호는 "+password+" 입니다.");
+				} else {
+					System.out.println("비밀번호 찾기 실패");
+					findPwd2();
+				}
+			
 			}
-		
+			
+			conn.close();
+			
+		} catch(SQLException se) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		
-		conn.close();
 	}
 	
 	//비밀번호 찾기(보안질문으로)
-	public void findPwd2() throws Exception {
+	public void findPwd2() {
 		UserView uv = new UserView();
 		UserData data = uv.findPwdInfoTwoStep();
 		
-		Connection conn = JdbcTemplate.getConnection();
-		
-		String sql = "SELECT * FROM MEMBER WHERE MEMBER_ID = ?";
-		
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, data.getUserId());
-		
-		ResultSet rs = pstmt.executeQuery();
-		
-		while(rs.next()) {
-			String nick = rs.getString("MEMBER_NICK");
-			String userPwd = rs.getString("MEMBER_PWD");
-			String tempA = data.getTempSecurityA();
-			String securityA = data.getUserSecurityA();
+		try {
+			Connection conn = JdbcTemplate.getConnection();
 			
-			if(tempA.equals(securityA)) {
-				System.out.println(nick+"님의 비밀번호는 "+userPwd+" 입니다.");
-			} else {
-				System.out.println("비밀번호 찾기 실패");
+			String sql = "SELECT * FROM MEMBER WHERE MEMBER_ID = ?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, data.getUserId());
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String nick = rs.getString("MEMBER_NICK");
+				String userPwd = rs.getString("MEMBER_PWD");
+				String tempA = data.getTempSecurityA();
+				String securityA = data.getUserSecurityA();
+				
+				if(tempA.equals(securityA)) {
+					System.out.println(nick+"님의 비밀번호는 "+userPwd+" 입니다.");
+				} else {
+					System.out.println("비밀번호 찾기 실패");
+				}
 			}
+			
+			conn.close();
+		} catch(SQLException e) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		
-		conn.close();
 		
 	}
 	
 	//회원정보 조회
-	public void searchMemberInfo() throws Exception {
+	public void searchMemberInfo() {
 		UserView uv = new UserView();
 		UserData data = uv.GetSearchMemberInfo();
 		
-		Connection conn = JdbcTemplate.getConnection();
-		String sql = "SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NICK, SIGN_UP_DATE, EMAIL, PHONE_NUMBER FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1,  data.getUserId());
-		pstmt.setString(2,  data.getUserPwd());
-		ResultSet rs = pstmt.executeQuery();
-		
-		while(rs.next()) {
-			String memberId = rs.getString("MEMBER_ID");
-			String memberPwd = rs.getString("MEMBER_PWD");
-			String memberNick = rs.getString("MEMBER_NICK");
-			String signUpDate = rs.getString("SIGN_UP_DATE");
-			String memberEmail = rs.getString("EMAIL");
-			String memberPhoneNumber = rs.getString("PHONE_NUMBER");
+		try {
+			Connection conn = JdbcTemplate.getConnection();
+			String sql = "SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NICK, SIGN_UP_DATE, EMAIL, PHONE_NUMBER FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,  data.getUserId());
+			pstmt.setString(2,  data.getUserPwd());
+			ResultSet rs = pstmt.executeQuery();
 			
+			while(rs.next()) {
+				String memberId = rs.getString("MEMBER_ID");
+				String memberPwd = rs.getString("MEMBER_PWD");
+				String memberNick = rs.getString("MEMBER_NICK");
+				String signUpDate = rs.getString("SIGN_UP_DATE");
+				String memberEmail = rs.getString("EMAIL");
+				String memberPhoneNumber = rs.getString("PHONE_NUMBER");
+				
+				
+				System.out.println("+-------------+------------------+-----------+-------------------------+--------------+----------------------------+");
+		        System.out.println("| ID          | Password         | Nickname  | Email                   | Phone Number | Sign-up Date               |");
+		        System.out.println("+-------------+------------------+-----------+-------------------------+--------------+----------------------------+");
+		        System.out.format("| %-11s | %-16s | %-9s | %-23s | %-12s | %-20s     |\n", memberId, memberPwd, memberNick, memberEmail, memberPhoneNumber, signUpDate);
+		        System.out.println("+-------------+------------------+-----------+-------------------------+--------------+----------------------------+");
+				
+			}
 			
-			System.out.println("+-------------+------------------+-----------+-------------------------+--------------+----------------------------+");
-	        System.out.println("| ID          | Password         | Nickname  | Email                   | Phone Number | Sign-up Date               |");
-	        System.out.println("+-------------+------------------+-----------+-------------------------+--------------+----------------------------+");
-	        System.out.format("| %-11s | %-16s | %-9s | %-23s | %-12s | %-20s     |\n", memberId, memberPwd, memberNick, memberEmail, memberPhoneNumber, signUpDate);
-	        System.out.println("+-------------+------------------+-----------+-------------------------+--------------+----------------------------+");
-			
+			conn.close();
+		} catch(SQLException e) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		
-		conn.close();
 	}
 	
 	
 	//회원정보 수정
-	public void modifyMemberInfo() throws Exception {
+	public void modifyMemberInfo() {
 		UserView uv = new UserView();
 		UserData data = uv.getModifiedMemberInfo();
 		
-		Connection conn = JdbcTemplate.getConnection();
-		
-		
-		
-		
-		String sql = "UPDATE MEMBER SET MEMBER_NICK = ?, EMAIL = ?, PHONE_NUMBER = ? WHERE MEMBER_ID = ?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, data.getUserNick());
-		pstmt.setString(2, data.getUserEmail());
-		pstmt.setString(3,  data.getUserPhoneNumber());
-		pstmt.setString(4, data.getUserId());
-		
+		try {
+			Connection conn = JdbcTemplate.getConnection();
 			
-		int result = pstmt.executeUpdate();
-		
-		if(result == 1) {
-			System.out.println("회원정보 수정 성공");
-		} else {
-			System.out.println("회원정보 수정 실패");
+			String sql = "UPDATE MEMBER SET MEMBER_NICK = ?, EMAIL = ?, PHONE_NUMBER = ? WHERE MEMBER_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, data.getUserNick());
+			pstmt.setString(2, data.getUserEmail());
+			pstmt.setString(3,  data.getUserPhoneNumber());
+			pstmt.setString(4, data.getUserId());
+			
+				
+			int result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				System.out.println("회원정보 수정 성공");
+			} else {
+				System.out.println("회원정보 수정 실패");
+			}
+			
+			conn.close();
+		} catch(SQLException e) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		
-		conn.close();
 	}
 	
 	
 	//회원 탈퇴
-	public void withdrawUser() throws Exception {
+	public void withdrawUser() {
 		UserView uv = new UserView();
 		UserData data = uv.withdrawMemberInfo();
-		String sql = "UPDATE MEMBER SET STATE_CODE = 3 WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
 		
-		Connection conn = JdbcTemplate.getConnection();
-		
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, data.getUserId());
-		pstmt.setString(2, data.getUserPwd());
-		
-		int result = pstmt.executeUpdate();
-		
-		if(result == 1) {
-			System.out.println("회원 탈퇴 성공");
-		} else {
-			System.out.println("회원 탈퇴 실패");
+		try {
+			String sql = "UPDATE MEMBER SET STATE_CODE = 3 WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
+			
+			Connection conn = JdbcTemplate.getConnection();
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, data.getUserId());
+			pstmt.setString(2, data.getUserPwd());
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				System.out.println("회원 탈퇴 성공");
+			} else {
+				System.out.println("회원 탈퇴 실패");
+			}
+			
+			
+			conn.close();
+		} catch(SQLException e) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		
-		
-		conn.close();
 	}
 }
