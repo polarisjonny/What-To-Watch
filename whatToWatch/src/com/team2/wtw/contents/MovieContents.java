@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.team2.wtw.main.Main;
+
 public class MovieContents {
 
 	private String[] movieList = new String[10];
@@ -51,7 +53,7 @@ public class MovieContents {
 
 	public void chooseMovie() {
 
-		String input = ContentsHome.SC.nextLine();
+		String input = Main.SC.nextLine();
 
 		try {
 			// DB 연결
