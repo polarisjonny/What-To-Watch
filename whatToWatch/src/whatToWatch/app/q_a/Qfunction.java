@@ -1,8 +1,10 @@
 package q_a;
 
 public class Qfunction {
-	//¹®ÀÇ»çÇ× ÀÛ¼ºÇÏ±â
+	
+	//ë¬¸ì˜ì‚¬í•­ ì‘ì„±í•˜ê¸°
 	public void writeQ() {
 		
 	}
+
 }

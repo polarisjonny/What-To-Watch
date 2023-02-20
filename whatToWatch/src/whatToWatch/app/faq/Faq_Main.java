@@ -1,16 +1,16 @@
 package faq;
 
-public class FaqMain {
+public class Faq_Main {
 	PlayStart ps = new PlayStart();
 
 	public static void main(String[] args) {
 		
-		//FAQ°Ô½ÃÆÇ
+		//FAQê²Œì‹œíŒ
 		while(true) {
 			boolean isFinish = ps.faqPlayStart();
 			if(isFinish) {break;}
 		}
-		System.out.println("»ç¿ëÀ» Á¾·áÇÕ´Ï´Ù. ÀÌ¿ëÇØ ÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù.");
-
+		System.out.println("ì‚¬ìš©ì„ ì¢…ë£Œí•©ë‹ˆë‹¤. ì´ìš©í•´ ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤.");
+		
 	}
 }

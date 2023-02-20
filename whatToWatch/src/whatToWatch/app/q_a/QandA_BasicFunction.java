@@ -1,24 +1,24 @@
 package q_a;
 
-public class QAstart {
-
-	//¸Ş´ºº¸¿©ÁÖ±â
+public class QandA_BasicFunction {
+	
+	//ë©”ë‰´ë³´ì—¬ì£¼ê¸°
 	public void showQaMenu() {
 		System.out.println();
-		System.out.println("1.¹®ÀÇ»çÇ× ÀÛ¼º");
-		System.out.println("2.¹®ÀÇ°Ô½ÃÆÇ¸ñ·Ï");
-		System.out.println("3.³ªÀÇ ¹®ÀÇ");
-		System.out.println("4.´äº¯ ÀÛ¼º");
+		System.out.println("1.ë¬¸ì˜ì‚¬í•­ ì‘ì„±");
+		System.out.println("2.ë¬¸ì˜ê²Œì‹œíŒëª©ë¡");
+		System.out.println("3.ë‚˜ì˜ ë¬¸ì˜");
+		System.out.println("4.ë‹µë³€ ì‘ì„±");
 	}
 	
-	//¸Ş´º¼±ÅÃ¹Ş±â
+	//ë©”ë‰´ì„ íƒë°›ê¸°
 	public String selectQaMenu() {
 		String input = Main.SC.nextLine();
 		
 		return input;
 	}
 	
-	//¼±ÅÃ¿¡ µû¸¥ ·ÎÁ÷Á¬
+	//ì„ íƒì— ë”°ë¥¸ ë¡œì§ì ¯
 	public void showQaList(String input) {
 		Qfunction q = new Qfunction();
 		Afunction a = new Afunction();
@@ -30,4 +30,5 @@ public class QAstart {
 		case "4" :
 		}
 	}
+
 }
