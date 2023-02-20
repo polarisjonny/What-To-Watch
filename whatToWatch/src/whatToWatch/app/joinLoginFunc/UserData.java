@@ -1,6 +1,7 @@
 package whatToWatch.app.joinLoginFunc;
 
 public class UserData {
+	private int userNum;
 	private String userId;
 	private String userPwd;
 	private String userNick;
@@ -11,10 +12,13 @@ public class UserData {
 	private String tempSecurityA;
 	
 	
+	
+
 	@Override
 	public String toString() {
-		return " ";
-				
+		return "UserData [userId=" + userId + ", userPwd=" + userPwd + ", userNick=" + userNick + ", userEmail="
+				+ userEmail + ", userPhoneNumber=" + userPhoneNumber + ", userSecurityQ=" + userSecurityQ
+				+ ", userSecurityA=" + userSecurityA + ", tempSecurityA=" + tempSecurityA + "]";
 	}
 
 
@@ -95,5 +99,15 @@ public class UserData {
 
 	public void setTempSecurityA(String tempSecurityA) {
 		this.tempSecurityA = tempSecurityA;
+	}
+
+
+	public int getUserNum() {
+		return userNum;
+	}
+
+
+	public void setUserNum(int userNum) {
+		this.userNum = userNum;
 	}
 }

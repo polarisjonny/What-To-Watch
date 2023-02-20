@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserService {
-	
+	public static UserData data2 = new UserData();
 	
 	//회원가입 기능
 	public void join() {
@@ -47,33 +47,43 @@ public class UserService {
 	}
 	
 	//로그인 기능
-	public void login() {
+	public UserData login() {
 		UserView uv = new UserView();
 		UserData data = uv.GetLoginInfo();
 		
 		
 		try {
 			Connection conn = JdbcTemplate.getConnection();
-			String sql = "SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NICK FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
+			String sql = "SELECT MEMBER_NO, MEMBER_ID, MEMBER_PWD, MEMBER_NICK FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,  data.getUserId());
 			pstmt.setString(2, data.getUserPwd());
 			ResultSet rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
+				int memberNum = rs.getInt("MEMBER_NO");
 				String nick = rs.getString("MEMBER_NICK");
+				
+				
+				data2.setUserNum(memberNum);
+				
 				System.out.println(nick+"님 환영합니다:)");
+				
+				return data2;
 			}
 			else {
 				System.out.println("로그인 실패");
 			}
 			
 			conn.close();
+			
 		} catch(SQLException e) {
 			System.out.println("값을 잘못 입력하셨습니다.");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 	
 	
@@ -281,6 +291,7 @@ public class UserService {
 			
 			
 			conn.close();
+			
 		} catch(SQLException e) {
 			System.out.println("값을 잘못 입력하셨습니다.");
 		} catch(Exception e) {

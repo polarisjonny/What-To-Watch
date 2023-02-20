@@ -10,9 +10,6 @@ public class JdbcTemplate {
 		String password = "KH";
 		Connection conn = DriverManager.getConnection(url, username, password);
 		
-		
-		
-		
 		return conn;
 	}
 }

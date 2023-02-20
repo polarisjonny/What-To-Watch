@@ -149,7 +149,6 @@ public class UserView {
 	public UserData findPwdInfoOneStep() {
 		UserData data = new UserData();
 		
-		
 		System.out.print("아이디를 입력하세요 : ");
 		String userId = scanner.nextLine();
 		data.setUserId(userId);
