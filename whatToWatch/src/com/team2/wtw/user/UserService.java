@@ -5,9 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserService {
+import com.team2.wtw.main.Main;
+import com.team2.wtw.template.JdbcConncetionTemplate;
 
-	public static UserData data2 = new UserData();
+public class UserService {
 
 	// 회원가입 기능
 	public void join() {
@@ -47,7 +48,7 @@ public class UserService {
 	}
 
 	// 로그인 기능
-	public UserData login() {
+	public void login() {
 		UserView uv = new UserView();
 		UserData data = uv.GetLoginInfo();
 
@@ -63,11 +64,10 @@ public class UserService {
 				int memberNum = rs.getInt("MEMBER_NO");
 				String nick = rs.getString("MEMBER_NICK");
 
-				data2.setUserNum(memberNum);
-
+				Main.userData.setUserNum(memberNum);
+				
 				System.out.println(nick + "님 환영합니다:)");
 
-				return data2;
 			} else {
 				System.out.println("로그인 실패");
 			}
@@ -79,8 +79,6 @@ public class UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return null;
 	}
 
 	// 아이디 찾기
