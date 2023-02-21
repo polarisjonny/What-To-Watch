@@ -54,7 +54,7 @@ public class FreeBoardService {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, title);
 		pstmt.setString(2, content);
-		pstmt.setInt(3,1 );//작성자
+		pstmt.setInt(3,Main.userData.getUserNum() );
 		int result = pstmt.executeUpdate();
 		if (result == 1) {
 			System.out.println("게시물 작성 성공 !!!");
@@ -69,7 +69,7 @@ public class FreeBoardService {
 	// 게시물 조회
 	public void BoardSearch() throws Exception {
 
-		int nick= 1; // 로그인시 계정 번호
+		int nick= Main.userData.getUserNum(); // 로그인시 계정 번호
 		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE,BOARD_NO FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE TITLE = ?";
 		System.out.println("제목을 검색하시오. ");
 		System.out.println("제목 : ");
@@ -131,7 +131,7 @@ public class FreeBoardService {
 	public void edit() throws Exception {
 
 		// sql이용하여 어떤 게시물 수정할지 컨택
-		int nick = 1 ;// 로그인시 계정 번호
+		int nick = Main.userData.getUserNum() ;// 로그인시 계정 번호
 		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE,BOARD_NO FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE TITLE = ? AND M.MEMBER_NO="
 				+ nick;
 
@@ -195,7 +195,7 @@ public class FreeBoardService {
 	// 게시물 삭제
 	public void boardDelect() throws Exception {
 		// sql이용하여 어떤 게시물 수정할지 컨택
-		int nick = 1;// 로그인시 계정번호
+		int nick = Main.userData.getUserNum();// 로그인시 계정번호
 		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE,BOARD_NO FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE TITLE = ? AND DELETE_YN ='N' AND M.MEMBER_NO="+nick;
 
 		System.out.println("삭제할 게시물의 제목을 검색하시오. ");
@@ -231,9 +231,9 @@ public class FreeBoardService {
 
 		System.out.println("이 게시물을 삭제 하시겠습니까??");
 		System.out.println("1.예 2.아니오");
-		int choise = Main.SC.nextInt();
+		String choise = Main.SC.nextLine();
 
-		if (choise == 1) {
+		if (choise.equals("1")) {
 			PreparedStatement deletePstmt = conn.prepareStatement(delectSql);
 			deletePstmt.setInt(1,nick);
 			deletePstmt.setString(2, title);
@@ -241,7 +241,7 @@ public class FreeBoardService {
 
 			System.out.println("삭제 완료 되었습니다.");
 			
-		} else if (choise == 2) {
+		} else if (choise.equals("2")) {
 			System.out.println("");
 		} 
 		
