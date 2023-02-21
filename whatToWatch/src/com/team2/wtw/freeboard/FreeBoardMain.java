@@ -8,19 +8,15 @@ public class FreeBoardMain {
 	
 	public void boardMain() throws Exception {
 
-		System.out.println("====자유게시판====");
-
-		System.out.println("1. 게시판 작성");
-		System.out.println("2. 게시판 조회");
-		System.out.println("3. 게시판 수정");
-		System.out.println("4. 게시판 삭제");
-
 		// 게시판 목록 ~~~
-		
-		m01();
+		MainService ms = new MainService();
+		while(true) {
+			boolean isFinish = ms.startProgram();
+				if(isFinish) {break;}
+		}
 	}
 	
-	public void m01() throws Exception {
+	public boolean m01() throws Exception {
 			
 		String pick = Main.SC.nextLine();
 		
@@ -28,9 +24,12 @@ public class FreeBoardMain {
 		case "1" :  fs.BoardWrite();    break;
 		case "2" :  fs.BoardSearch();      break;
 		case "3" :  fs.edit();      break;
-		case "4" :  fs.boardDelect();      break;
+		case "4" :  fs.boardDelect();    break;
+		case "5" :  return true;
 		default :  System.out.println("잘못입력하였습니다");
 		}
+		
+		return false;
 		}
 
 }
