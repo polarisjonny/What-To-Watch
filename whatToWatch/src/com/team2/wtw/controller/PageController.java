@@ -3,6 +3,7 @@ package com.team2.wtw.controller;
 import com.team2.wtw.contents.DramaContents;
 import com.team2.wtw.contents.EntertainmentContents;
 import com.team2.wtw.contents.MovieContents;
+import com.team2.wtw.freeboard.MainService;
 import com.team2.wtw.main.Main;
 import com.team2.wtw.template.PrintTemplate;
 import com.team2.wtw.user.UserService;
@@ -76,9 +77,9 @@ public class PageController {
 			}
 			// 자유게시판
 			else if (userInput.equals("/7") || userInput.equals("/자유게시판")) {
-
 				
 
+				
 			}
 			// 이벤트
 			else if (userInput.equals("/8") || userInput.equals("/이벤트")) {
