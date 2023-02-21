@@ -79,6 +79,4 @@ public class EventView {
 	public void showCelebrationMessage2() {
 		System.out.println("☆★☆★☆★☆★☆★☆★ 축하드립니다! 크레딧 500점을 넘겨 게임에 승리하였습니다~ ☆★☆★☆★☆★☆★");
 	}
-	
-	
 }
