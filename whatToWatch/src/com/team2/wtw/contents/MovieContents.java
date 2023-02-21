@@ -6,41 +6,145 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.team2.wtw.main.Main;
+import com.team2.wtw.review.Rivew;
+import com.team2.wtw.template.JdbcConncetionTemplate;
+import com.team2.wtw.template.PrintTemplate;
+
 public class MovieContents {
 
 	private String[] movieList = new String[10];
 
-	public void showMovieContents() {
+	public void processMovie() {
+
+		// 총 드라마 컨텐츠 수 ( 페이지에 이용 )
+		int count = getCount();
+		// 선택한 컨텐츠의 CONTENTS_NO. 리뷰로 넘길용도.
+		String choice = "";
+
+		// 컨텐츠가 없을리 없지만 없다면...
+		if (count == 0) {
+			System.out.println("컨텐츠 count 0개...");
+			// 옝화 컨텐츠 목록 출력 (10개씩)
+		} else {
+			showMovieContents(count);
+		}
+		// 세부 보기한 컨텐츠의 CONTENTS_NO. choice에 저장.
+		choice = showMovieDetail();
+
+		// 리뷰 기능으로
+		new Rivew().processReview(choice);
+	}
+
+	// 총 옝화 컨텐츠 수 가져오기
+	private int getCount() {
+		String result = "";
+		int count = 0;
+
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
+
+		String getCount_sql = "SELECT COUNT(CONTENTS_NO) \"COUNT\"\r\n" + "FROM CONTENTS C1\r\n"
+				+ "    JOIN CATEGORY C2 ON C1.CATEGORY_NO = C2.CATEGORY_NO\r\n" + "WHERE C2.CATEGORY_NAME = '영화'";
+
+		try {
+			PreparedStatement getCount_pstmt = conn.prepareStatement(getCount_sql);
+			ResultSet countResultSet = getCount_pstmt.executeQuery();
+
+			countResultSet.next();
+			result = countResultSet.getString("COUNT");
+			count = Integer.parseInt(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		count = ((count + 9) / 10) * 10;
+
+		return count;
+	} // method | getCount
+
+	// 영화 목록 출력하기
+	public void showMovieContents(int count) {
+
+		int start = 0;
+		int end = 10;
+
+		String input = "";
 
 		try {
 			// DB 연결
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-			String id = "C##TEAM2TEST";
-			String pw = "T2T";
-			Connection conn = DriverManager.getConnection(url, id, pw);
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
-			// 최신순
-			String movieList_sql = "SELECT CONTENTS_NO, CONTENTS_TITLE, TO_CHAR(RELEASE_DATE, 'YY/MM/DD') AS RELEASE_DATE\r\n"
-					+ "FROM\r\n" + "(\r\n" + "    SELECT ROWNUM \"NUM\", CONTENTS_NO, CONTENTS_TITLE, RELEASE_DATE\r\n"
-					+ "    FROM CONTENTS T1\r\n" + "        JOIN CATEGORY T2 ON T1.CATEGORY_NO = T2.CATEGORY_NO \r\n"
-					+ "    WHERE CATEGORY_NAME = '영화'\r\n" + "    ORDER BY RELEASE_DATE DESC\r\n" + ")\r\n"
-					+ "WHERE NUM > ? AND NUM <= ?\r\n";
+			while (!(input.equals("C"))) {
 
-			PreparedStatement movieList_pstmt = conn.prepareStatement(movieList_sql);
+				String movieList_sql = "SELECT RANK, CONTENTS_NO, CONTENTS_TITLE, SUBSTR(SYNOPSIS, 1, 10) SYNOPSIS, TO_CHAR(RELEASE_DATE, 'YY/MM/DD') RELEASEDATE\r\n"
+						+ "FROM\r\n" + "(\r\n"
+						+ "    SELECT RANK() OVER (ORDER BY RELEASE_DATE DESC) RANK, CONTENTS_NO, CONTENTS_TITLE, SYNOPSIS, RELEASE_DATE\r\n"
+						+ "    FROM CONTENTS C1\r\n" + "        JOIN CATEGORY C2 ON C1.CATEGORY_NO = C2.CATEGORY_NO\r\n"
+						+ "    WHERE CATEGORY_NAME = '영화'\r\n" + ")\r\n" + "WHERE RANK > ? AND RANK <= ?";
 
-			movieList_pstmt.setString(1, "0");
-			movieList_pstmt.setString(2, "10");
-			ResultSet movieList_ResultSet = movieList_pstmt.executeQuery();
+				PreparedStatement movieList_pstmt = conn.prepareStatement(movieList_sql);
+				movieList_pstmt.setInt(1, start);
+				movieList_pstmt.setInt(2, end);
+				ResultSet movieList_ResultSet = movieList_pstmt.executeQuery();
 
-			System.out.println("영화");
-			int i = 1;
-			while (movieList_ResultSet.next()) {
-				movieList[i - 1] = movieList_ResultSet.getString("CONTENTS_NO");
-				System.out.printf("%d. %-20s %s\n", i, movieList_ResultSet.getString("CONTENTS_TITLE"),
-						movieList_ResultSet.getString("RELEASE_DATE"));
-				i++;
+				PrintTemplate.printFloor();
+				
+				System.out.println("[영화]");
+				int i = 0;
+				while (movieList_ResultSet.next()) {
+					movieList[i] = movieList_ResultSet.getString("CONTENTS_NO");
+					System.out.printf("%d. %s \t\t %s \t\t %s\n", i + 1, movieList_ResultSet.getString("CONTENTS_TITLE")
+							, movieList_ResultSet.getString("SYNOPSIS") , movieList_ResultSet.getString("RELEASEDATE"));
+					i++;
+
+				}
+
+				PrintTemplate.printFloor();
+
+				if (start == 0 && end == count) {
+					// c
+					System.out.println("선택 | 현재페이지 : C");
+					System.out.print("입력 : ");
+					input = Main.SC.nextLine();
+
+				} else if (start == 0 && end < count) {
+					// n , c
+					System.out.println("선택 | 다음페이지 : N, 현재페이지 : C");
+					System.out.print("입력 : ");
+					input = Main.SC.nextLine();
+					if (input.equals("N")) {
+						start += 10;
+						end += 10;
+					} else if (input.equals("C")) {
+
+					}
+				} else if (start >= 10 && end < count) {
+					// p, n, c
+					System.out.println("선택 | 이전페이지 : P, 다음페이지 : N, 현재페이지 : C");
+					System.out.print("입력 : ");
+					input = Main.SC.nextLine();
+					if (input.equals("P")) {
+						start -= 10;
+						end -= 10;
+					} else if (input.equals("N")) {
+						start += 10;
+						end += 10;
+					} else if (input.equals("C")) {
+
+					}
+				} else if (start >= 10 && end == count) {
+					// p, c
+					System.out.println("선택 | 이전페이지 : P, 현재페이지 : C");
+					System.out.print("입력 : ");
+					input = Main.SC.nextLine();
+					if (input.equals("P")) {
+						start -= 10;
+						end -= 10;
+					} else if (input.equals("C")) {
+
+					}
+				}
 			}
-
 			conn.close();
 
 		} catch (SQLException e) {
@@ -49,16 +153,15 @@ public class MovieContents {
 
 	} // method | showMovieContents
 
-	public void chooseMovie() {
+	// 선택한 옝화 세부 정보 보기
+	public String showMovieDetail() {
 
-		String input = ContentsHome.SC.nextLine();
+		System.out.print("세부 정보를 볼 영화의 번호를 입력해주세요 : ");
+		String input = Main.SC.nextLine();
 
 		try {
 			// DB 연결
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-			String id = "C##TEAM2TEST";
-			String pw = "T2T";
-			Connection conn = DriverManager.getConnection(url, id, pw);
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 			String movieDetail_sql = "SELECT CONTENTS_NO\r\n" + "    ,DIRECTOR_NO\r\n" + "    ,COUNTRY_NO\r\n"
 					+ "    ,CATEGORY_NO\r\n" + "    ,CONTENTS_TITLE\r\n" + "    ,SYNOPSIS\r\n"
@@ -132,6 +235,8 @@ public class MovieContents {
 			e.printStackTrace();
 		}
 
-	} // method | chooseMovie
+		return movieList[Integer.parseInt(input) - 1];
 
-}
+	} // method | showMovieDetail
+
+} // class | MovieContents
