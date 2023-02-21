@@ -26,7 +26,7 @@ public class PrintTemplate {
 		
 	} // method | printCeiling
 
-	private void printFloor() {
+	public static void printFloor() {
 		
 		for (int i = 0; i < 123; i++)
 			System.out.print("-");

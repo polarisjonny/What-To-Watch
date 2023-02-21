@@ -54,7 +54,7 @@ public class PageController {
 			else if (userInput.equals("/4") || userInput.equals("/영 화")) {
 
 				MovieContents mc = new MovieContents();
-				mc.showMovieContents();
+				mc.processMovie();
 				
 
 			}
@@ -62,7 +62,7 @@ public class PageController {
 			else if (userInput.equals("/5") || userInput.equals("/드라마")) {
 
 				DramaContents dc = new DramaContents();
-				dc.showDramaContents();
+				dc.processDrama();
 				
 
 			}
@@ -70,7 +70,7 @@ public class PageController {
 			else if (userInput.equals("/6") || userInput.equals("/예 능")) {
 
 				EntertainmentContents ec = new EntertainmentContents();
-				ec.showEnterContents();
+				ec.processEnt();
 				
 
 			}
@@ -98,8 +98,6 @@ public class PageController {
 				
 
 			}
-			
-			System.out.println("프로그램을 종료합니다..");
 
 		} // while( !(userInput.equals("/exit")) )
 
