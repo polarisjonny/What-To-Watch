@@ -3,15 +3,22 @@ package com.team2.wtw.freeboard;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
+import com.team2.wtw.freeboard.comment.CommentService;
 import com.team2.wtw.main.Main;
 
 public class FreeBoardService {
 
+	public ArrayList boardNoList = new ArrayList();
+	
+	public static int BoardNo=0;
+	
+	
 	public void BoardList() throws Exception {
 
 		Connection conn = GetConnection.conn();
-		String sql = "SELECT TITLE,MEMBER_NICK FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO=M.MEMBER_NO WHERE DELETE_YN='N'";
+		String sql = "SELECT TITLE,MEMBER_NICK,BOARD_NO FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO=M.MEMBER_NO WHERE DELETE_YN='N'";
 		// 게시물 목록 조회
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
@@ -19,7 +26,8 @@ public class FreeBoardService {
 
 			String title = rs.getString("TITLE");
 			String writer = rs.getString("MEMBER_NICK");
-
+			boardNoList.add("BOARD_NO");
+			
 			System.out.println("-------------------");
 			System.out.println("제목 : " + title);
 			System.out.println("작성자 : " + writer);
@@ -29,7 +37,7 @@ public class FreeBoardService {
 		conn.close();
 	}// bl
 
-	// 목록 작성
+	// 게시물 작성
 	public void BoardWrite() throws Exception {
 
 		Connection conn = GetConnection.conn();
@@ -46,7 +54,7 @@ public class FreeBoardService {
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, title);
 		pstmt.setString(2, content);
-
+		pstmt.setInt(3, Main.userData.getUserNum() );
 		int result = pstmt.executeUpdate();
 		if (result == 1) {
 			System.out.println("게시물 작성 성공 !!!");
@@ -61,9 +69,8 @@ public class FreeBoardService {
 
 	public void BoardSearch() throws Exception {
 
-		String nick = "1"; // 로그인시 계정 번호
-		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE TITLE = ? AND M.MEMBER_NO="
-				+ nick;
+		int nick= Main.userData.getUserNum(); // 로그인시 계정 번호
+		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE TITLE = ?";
 		System.out.println("제목을 검색하시오. ");
 		System.out.println("제목 : ");
 		String title = Main.SC.nextLine();
@@ -84,6 +91,11 @@ public class FreeBoardService {
 			System.out.println("내용 : " + content);
 			System.out.println("작성자 : " + writer);
 			System.out.println("작성일자 : " + date);
+			
+			CommentService cs = new CommentService();
+			cs.readComment();
+			System.out.println("댓글 작성 ..");
+			cs.writeComment();
 
 		} else {
 			System.out.println("검색결과가 없습니다");
@@ -96,8 +108,8 @@ public class FreeBoardService {
 	public void edit() throws Exception {
 
 		// sql이용하여 어떤 게시물 수정할지 컨택
-		String nick = "2";// 로그인시 계정 번호
-		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE TITLE = ? AND M.MEMBER_NO="
+		int nick = Main.userData.getUserNum();// 로그인시 계정 번호
+		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE,BOARD_NO FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE TITLE = ? AND M.MEMBER_NO="
 				+ nick;
 
 		System.out.println("수정할 게시물의 제목을 검색하시오. ");
@@ -109,14 +121,16 @@ public class FreeBoardService {
 		pstmt.setString(1, title);
 		pstmt.executeUpdate();
 		ResultSet rs = pstmt.executeQuery();
-
+		
+		
 		// 수정할 게시물 보여주고
 		if (rs.next()) {
 			String title2 = rs.getString("TITLE");
 			String content = rs.getString("CONTENT");
 			String writer = rs.getString("MEMBER_NICK");
 			String date = rs.getString("ENROLL_DATE");
-
+			BoardNo = rs.getInt("BOARD_NO");
+			
 			System.out.println("제목 : " + title2);
 			System.out.println("내용 : " + content);
 			System.out.println("작성자 : " + writer);
@@ -127,9 +141,7 @@ public class FreeBoardService {
 		}
 
 		// 게시물 수정
-		String boardNo = null; // 게시물 번호
-		String reSql = "UPDATE FREEBOARD SET TITLE = ? ,CONTENT  = ? WHERE MEMBER_NO =" + nick + " AND BOARD_NO ="
-				+ boardNo;
+		String reSql = "UPDATE FREEBOARD SET TITLE = ? ,CONTENT  = ? WHERE MEMBER_NO =" + nick + " AND BOARD_NO =?";
 
 		System.out.println("제목을 수정하시오 . . .");
 		System.out.println("제목 : ");
@@ -142,6 +154,8 @@ public class FreeBoardService {
 		PreparedStatement rePstmt = conn.prepareStatement(reSql);
 		rePstmt.setString(1, reTitle);
 		rePstmt.setString(2, reContent);
+		rePstmt.setInt(3, (int) boardNoList.get(BoardNo-1) );
+		
 		int result = rePstmt.executeUpdate();
 
 		if (result == 1) {
@@ -156,8 +170,8 @@ public class FreeBoardService {
 	// 게시물 삭제
 	public void boardDelect() throws Exception {
 		// sql이용하여 어떤 게시물 수정할지 컨택
-		String nick = "2";// 로그인시 계정번호
-		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE TITLE = ? AND MEMBER_NO="
+		int nick = Main.userData.getUserNum();// 로그인시 계정번호
+		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE TITLE = ? AND MEMBER_NO=?"
 				+ nick;
 
 		System.out.println("삭제할 게시물의 제목을 검색하시오. ");
@@ -167,6 +181,7 @@ public class FreeBoardService {
 		Connection conn = GetConnection.conn();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, title);
+		pstmt.setInt(2,nick );
 		pstmt.executeUpdate();
 		ResultSet rs = pstmt.executeQuery();
 
@@ -176,6 +191,7 @@ public class FreeBoardService {
 			String content = rs.getString("CONTENT");
 			String writer = rs.getString("MEMBER_NICK");
 			String date = rs.getString("ENROLL_DATE");
+			BoardNo = rs.getInt("BOARD_NO"); 
 
 			System.out.println("제목 : " + title2);
 			System.out.println("내용 : " + content);
