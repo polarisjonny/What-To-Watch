@@ -1,7 +1,14 @@
-package q_a;
+package qa;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import jdbctemplate.JdbcTemplate;
+import main.Main;
 
 public class Qfunction {
-		
+	
 	String category;
 	String detail;
 	public static String moreQ = "0";
@@ -149,39 +156,22 @@ public class Qfunction {
 	}
 	
 	//나의문의 세부게시판 로직 
-	public void myQuestionList() {
-		
-	}
-	
-	//나의문의
-	public void myQuestion() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
-		
-		System.out.print("회원번호를 입력하세요(숫자) : ");
-		memberNo = Main.SC.nextLine();
-		
-		String s = "SELECT Q_NO, ADMIN_NO, MEMBER_NO, CATEGORY_NAME, DETAIL_CATEGORY_CODE, Q_TITLE, Q_CONTENT, TO_CHAR(Q_DATE, 'YYYY/MM/DD HH24:MI') AS Q_DATE, A_NO, A_TITLE, A_CONTENT, TO_CHAR(A_DATE, 'YYYY/MM/DD HH24:MI') AS A_DATE, DELETE_YN, NVL(MORE_Q_NO, '0') AS MORE_Q_NO FROM QA JOIN QA_CATEGORY ON QA.CATEGORY_CODE = QA_CATEGORY.CATEGORY_CODE WHERE MEMBER_NO = ?";
-		PreparedStatement pstmt = conn.prepareStatement(s);
-		pstmt.setString(1, memberNo);
-		ResultSet rs = pstmt.executeQuery();
+	public void myQuestionList() throws Exception {
+		MyQa mq = new MyQa();
 		
 		System.out.println();
-		System.out.println("		================================");
-		while(rs.next()) {
-			int no = rs.getInt("Q_NO");
-			int dbMemberNo = rs.getInt("MEMBER_NO");
-			String category = rs.getString("CATEGORY_NAME");
-			String title = rs.getString("Q_TITLE");
-			String answer = rs.getString("A_CONTENT");
-			
-			System.out.println("		문의번호:" + no + " | 회원번호:" + memberNo);
-			System.out.println("		" + category + " | 제목:" + title);
-			System.out.println("		관리자답변:" + answer);
-			System.out.println();
+		System.out.println("===========================================================");
+		System.out.println("      1.문의 수정        |     2.문의 삭제         |      3.내 문의 보기        ");
+		System.out.println("===========================================================");
+		
+		String input = Main.SC.nextLine();
+		
+		switch(input) {
+		case "1" : mq.updateQ(); break;
+		case "2" : mq.deleteQ(); break;
+		case "3" : mq.myQuestion();
 		}
-		System.out.println("		================================");
-		conn.close();
 	}
-
-
+	
+	
 }

@@ -22,7 +22,7 @@ public class CommentService {
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1,FreeBoardService.BoardNo);
-		pstmt.setInt(2,1); //유저 넘버
+		pstmt.setInt(2,Main.userData.getUserNum()); //유저 넘버
 		pstmt.setString(3,comment);
 		int result = pstmt.executeUpdate();
 		if(result==1) {
@@ -70,9 +70,9 @@ public class CommentService {
 		
 		System.out.println("삭제할 댓글 번호를 입력하시오");
 		System.out.print("댓글번호 : ");
-		int pickNo = Main.SC.nextInt();
+		String pickNo = Main.SC.nextLine();
 
-		String Sql="DELETE \"COMMENT\" WHERE COMMENT_NO="+pickNo+" AND BOARD_NO="+FreeBoardService.BoardNo+" AND MEMBER_NO=1";
+		String Sql="DELETE \"COMMENT\" WHERE COMMENT_NO="+pickNo+" AND BOARD_NO="+FreeBoardService.BoardNo+" AND MEMBER_NO="+Main.userData.getUserNum();
 		//사용자
 		
 		

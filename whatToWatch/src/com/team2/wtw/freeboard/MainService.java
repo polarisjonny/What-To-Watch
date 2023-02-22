@@ -19,13 +19,16 @@ public class MainService {
 		System.out.println("  5. 홈페이지로 돌아가기");
 		
 		System.out.println("=====================================================================");
+		
 		fs.BoardList();
 		
 	}//선택지 보여주기 
 	
 	public void boardStart(String pick) throws Exception {
 		
+		
 		switch(pick) {
+		
 		case "1" :  fs.BoardWrite();    break;
 		case "2" :  fs.BoardSearch();      break;
 		case "3" :  fs.edit();      break;

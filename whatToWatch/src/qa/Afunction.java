@@ -1,4 +1,4 @@
-package q_a;
+package qa;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,6 @@ import jdbctemplate.JdbcTemplate;
 import main.Main;
 
 public class Afunction {
-
 	public static int QuestionNo;
 	
 	//답변할 문의내용보기
@@ -90,5 +89,4 @@ public class Afunction {
 		}
 		System.out.println("		==============================================");
 	}
-
-}
+}//
