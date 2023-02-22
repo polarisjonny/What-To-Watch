@@ -39,6 +39,7 @@ public class Qfunction {
 		category = Main.SC.nextLine();
 		
 		return category;
+		
 	}
 	
 	//세부카테고리 제시
@@ -138,7 +139,8 @@ public class Qfunction {
 		PreparedStatement pstmt = conn.prepareStatement(s);
 		ResultSet rs = pstmt.executeQuery();
 		
-		 
+		System.out.println();
+		System.out.println("		================================");
 		while(rs.next()) {
 			int no = rs.getInt("Q_NO");
 			memberNo = rs.getString("MEMBER_NO");
@@ -171,33 +173,5 @@ public class Qfunction {
 		}
 	}
 	
-	//문의검색
-	public void search() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
-		
-		System.out.print("문의번호 또는 회원번호를 입력하세요 : ");
-		String search = Main.SC.nextLine();
-		
-		String s = "SELECT Q_NO, ADMIN_NO, MEMBER_NO, CATEGORY_NAME, DETAIL_CATEGORY_NAME, Q_TITLE, Q_CONTENT, TO_CHAR(Q_DATE, 'YYYY/MM/DD HH24:MI') AS Q_DATE, A_NO, A_TITLE, A_CONTENT, TO_CHAR(A_DATE, 'YYYY/MM/DD HH24:MI') AS A_DATE, DELETE_YN, NVL(MORE_Q_NO, '0') AS MORE_Q_NO FROM QA JOIN QA_CATEGORY ON QA.CATEGORY_CODE = QA_CATEGORY.CATEGORY_CODE JOIN DETAIL_CATEGORY ON QA.DETAIL_CATEGORY_CODE = DETAIL_CATEGORY.DETAIL_CATEGORY_CODE WHERE Q_NO = ? OR MEMBER_NO = ?";
-		PreparedStatement pstmt = conn.prepareStatement(s);
-		pstmt.setString(1, search);
-		pstmt.setString(2, search);
-		ResultSet rs = pstmt.executeQuery();
-		
-		System.out.println();
-		System.out.println("		================================");
-		while(rs.next()) {
-			String qNo = rs.getString("Q_NO");
-			String memberNo = rs.getString("MEMBER_NO");
-			String category = rs.getString("CATEGORY_NAME");
-			String title = rs.getString("Q_TITLE");
-			String content = rs.getString("Q_CONTENT");
-			
-			System.out.println("		문의번호:" + qNo + " | 회원번호:" + memberNo);
-			System.out.println("		카테고리:" + category + " | 제목:" + title);
-			System.out.println("		내용:" + content);
-		}
-		System.out.println("		================================");
-		conn.close();
-	}
+	
 }

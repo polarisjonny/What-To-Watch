@@ -26,10 +26,12 @@ public class SanctionMember {
 	 	private SanctionMemberData smd;
 	    private static JdbcTemplate jt;
 
+
 	    public SanctionMember() {
 	        smd = new SanctionMemberData();
 	        jt = new JdbcTemplate();
 	    }
+
 
 	    // 제재 회원 조회
 	    public void getSanctionInfo() {

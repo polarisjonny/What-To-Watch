@@ -24,22 +24,19 @@ public class Afunction {
 		ResultSet rs = pstmt.executeQuery();
 		
 		System.out.println();
-		System.out.println("		=======================답변할 문의 확인=======================");
+		System.out.println("		==============================================");
 		if(rs.next()) {
 			QuestionNo = rs.getInt("Q_NO");
-			String memberNo = rs.getString("MEMBER_NO");
+			int memberNo = rs.getInt("MEMBER_NO");
 			String category = rs.getString("DETAIL_CATEGORY_NAME");
 			String title = rs.getString("Q_TITLE");
 			String content = rs.getString("Q_CONTENT");
 			
-			System.out.println("		문의 번호:" + QuestionNo + " | 이전문의번호:" + Qfunction.moreQ + " | 회원번호:" + memberNo);
+			System.out.println("		문의 번호:" + QuestionNo + " | 이전문의번호:" + Qfunction.moreQ + " | 회원번호:" + Qfunction.memberNo);
 			System.out.println("		세부카테고리:"+ category + " | 제목:" + title);
 			System.out.println("		문의 내용:"+ content);
-		}else {
-			System.out.println("				없는 문의번호 입니다. 처음으로 돌아갑니다."); 
-			System.out.println("		========================================================="); return;
 		}
-		System.out.println("		========================================================");
+		System.out.println("		==============================================");
 		conn.close();
 		
 		System.out.println("\nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ답변을 작성해 주세요 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ ");
@@ -77,7 +74,7 @@ public class Afunction {
 		pstmt.setInt(1, QuestionNo);
 		ResultSet rs = pstmt.executeQuery();
 		
-		System.out.println("\n		======================답변 완료!!======================");
+		System.out.println("\n		ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ답변 목록ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
 		if(rs.next()) {
 			int aNo = rs.getInt("A_NO");
 			int qNo = rs.getInt("Q_NO");
@@ -90,8 +87,6 @@ public class Afunction {
 			System.out.println("		세부카테고리:" + category + " | 제목:" + title);
 			System.out.println("		답변내용:" + content);
 		}
-		System.out.println("		=====================================================");
-		conn.close();
+		System.out.println("		==============================================");
 	}
-
 }//
