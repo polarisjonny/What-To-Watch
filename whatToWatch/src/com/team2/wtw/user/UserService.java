@@ -243,14 +243,13 @@ public class UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		int number = view.selectUserInfo();
 		switch(number) {
 		case 1 : break;
 		case 2 : modifyMemberInfo();	break;
 		case 3 : withdrawUser();		break;
 		}
-		
 	}
 
 	// 회원정보 수정

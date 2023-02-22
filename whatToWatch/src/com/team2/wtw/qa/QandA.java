@@ -1,6 +1,6 @@
-package qa;
+package com.team2.wtw.qa;
 
-import main.Main;
+import com.team2.wtw.main.Main;
 
 public class QandA {
 	//메뉴보여주기

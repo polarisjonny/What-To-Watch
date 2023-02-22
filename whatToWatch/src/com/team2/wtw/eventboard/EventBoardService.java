@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.team2.wtw.main.Main;
+import com.team2.wtw.template.JdbcConncetionTemplate;
 
 public class EventBoardService {
 	
@@ -16,7 +17,7 @@ public class EventBoardService {
 		try {
 			String sql = "SELECT EVENT_NO, EVENT_TITLE FROM EVENTBOARD";
 			
-			Connection conn = JdbcTemplate.getConnection();
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			
@@ -45,7 +46,7 @@ public class EventBoardService {
 	public void printEventBoardDetail() {
 		EventView ev = new EventView();
 		try {
-			Connection conn = JdbcTemplate.getConnection();
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 			
 			String sql = "SELECT EVENT_NO, EVENT_TITLE, EVENT_CONTENT, START_DATE, END_DATE FROM EVENTBOARD WHERE EVENT_NO = ?";
 			
@@ -130,7 +131,7 @@ public class EventBoardService {
 		try {
 			if(input.equals("GO") || input.equals("go")) {
 				String sql = "SELECT COUNT(REVIEW_NO) 갯수 FROM REVIEW WHERE MEMBER_NO = ?";
-				Connection conn = JdbcTemplate.getConnection();
+				Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 				
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				
@@ -193,7 +194,7 @@ public class EventBoardService {
 				
 				String sql = "UPDATE EVENT2_ENTRANT_SCORE SET EVENT1_SCORE = ? WHERE MEMBER_NO = ?";
 				
-				Connection conn = JdbcTemplate.getConnection();
+				Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 				
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				

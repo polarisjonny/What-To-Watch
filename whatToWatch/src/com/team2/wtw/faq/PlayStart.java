@@ -1,6 +1,4 @@
-package playstart;
-
-import qa.QandA;
+package com.team2.wtw.faq;
 
 public class PlayStart {
 	Faq faq = new Faq();

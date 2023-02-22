@@ -1,12 +1,10 @@
-package faq;
+package com.team2.wtw.faq;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import Jdbctemplate.JdbcTemplate;
-import main.Main;
-import playstart.PlayStart;
+import com.team2.wtw.template.JdbcConncetionTemplate;
 
 //자주묻는질문
 public class Faq {
@@ -85,7 +83,7 @@ public class Faq {
 	}
 	
 	public void goodBad() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		//기존에 있던 좋아요&싫어요 수 받아와서 계속 누적
 		String s = "SELECT FAQ_NO, ADMIN_NO, FAQ_TITLE, FAQ_CONTENT, FAQ_SOLUTION, GOOD_COUNT, BAD_COUNT FROM FAQ WHERE FAQ_NO = ?";
@@ -120,7 +118,7 @@ public class Faq {
 	
 	//좋아요 싫어요 DB쿼리문
 	public void goodbadConnection() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		String s = "UPDATE FAQ SET GOOD_COUNT = ?, BAD_COUNT = ? WHERE FAQ_NO = ?";
 		PreparedStatement pstmt = conn.prepareStatement(s);
