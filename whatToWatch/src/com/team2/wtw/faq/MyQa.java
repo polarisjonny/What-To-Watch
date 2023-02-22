@@ -1,14 +1,14 @@
-package qa;
+package com.team2.wtw.faq;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import jdbctemplate.JdbcTemplate;
-import main.Main;
-import main.PlayAllFunction;
+import qa.PlayAllFunction;
+import qa.Qfunction;
 
 public class MyQa {
+
 	public static String Qno;
 	public static String dQno;
 	
@@ -140,5 +140,5 @@ public class MyQa {
 		System.out.println("		================================");
 		conn.close();
 	}
-
+	
 }
