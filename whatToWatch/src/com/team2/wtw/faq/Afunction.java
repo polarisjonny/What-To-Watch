@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import com.team2.wtw.main.Main;
 import com.team2.wtw.template.JdbcConncetionTemplate;
 
 public class Afunction {
@@ -34,8 +35,11 @@ public static int QuestionNo;
 			System.out.println("		문의 번호:" + QuestionNo + " | 이전문의번호:" + Qfunction.moreQ + " | 회원번호:" + Qfunction.memberNo);
 			System.out.println("		세부카테고리:"+ category + " | 제목:" + title);
 			System.out.println("		문의 내용:"+ content);
+		}else {
+			System.out.println("				없는 문의번호 입니다. 처음으로 돌아갑니다."); 
+			System.out.println("		========================================================="); return;
 		}
-		System.out.println("		==============================================");
+		System.out.println("		========================================================");
 		conn.close();
 		
 		System.out.println("\nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ답변을 작성해 주세요 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ ");
