@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import com.team2.wtw.main.Main;
+
 import jdbctemplate.JdbcTemplate;
-import main.Main;
 
 public class Afunction {
 	public static int QuestionNo;
