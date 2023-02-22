@@ -196,10 +196,9 @@ public class SanctionMember {
 	            int boardNo = rs.getInt("BOARD_NO");
 	            int sancCatNo = rs.getInt("SANC_CAT_NO");
 	            
-	            System.out.println("Board Sanction No: " + boardSanctionNo);
-	            System.out.println("Board No: " + boardNo);
-	            System.out.println("Sanction Category No: " + sancCatNo);
-	            System.out.println("--------------------");
+	            System.out.print("제재 게시물 번호 : " + boardSanctionNo);
+	            System.out.print("제재 사유 번호 : " + sancCatNo);
+	            System.out.print("--------------------");
 	        }
 	        
 	        rs.close();
@@ -218,9 +217,8 @@ public class SanctionMember {
 	            int reviewNo = rs.getInt("REVIEW_NO");
 	            int sancCatNo = rs.getInt("SANC_CAT_NO");
 	            
-	            System.out.println("Review Sanction No: " + reviewSanctionNo);
-	            System.out.println("Review No: " + reviewNo);
-	            System.out.println("Sanction Category No: " + sancCatNo);
+	            System.out.print("제재 리뷰 번호 : " + reviewSanctionNo);
+	            System.out.println("제재 사유 번호 : " + sancCatNo);
 	            System.out.println("--------------------");
 	        }
 	        
