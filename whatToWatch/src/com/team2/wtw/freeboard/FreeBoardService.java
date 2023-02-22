@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.team2.wtw.freeboard.comment.CommentService;
 import com.team2.wtw.main.Main;
+import com.team2.wtw.template.JdbcConncetionTemplate;
 
 public class FreeBoardService {
 
@@ -17,7 +18,7 @@ public class FreeBoardService {
 	
 	public void BoardList() throws Exception {
 
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		String sql = "SELECT TITLE,MEMBER_NICK,BOARD_NO FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO=M.MEMBER_NO WHERE DELETE_YN='N'";
 		// 게시물 목록 조회
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -40,7 +41,7 @@ public class FreeBoardService {
 	// 게시물 작성
 	public void BoardWrite() throws Exception {
 
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		String sql = "INSERT INTO FREEBOARD(BOARD_NO,TITLE,CONTENT,MEMBER_NO) VALUES(SEQ_BOARD_BOARD_NO.NEXTVAL,?,?,?)";// 마지막
 																														// 물음표는
 																														// 작성자
@@ -75,7 +76,7 @@ public class FreeBoardService {
 		System.out.println("제목 : ");
 		String title = Main.SC.nextLine();
 
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, title);
 		pstmt.executeUpdate();
@@ -139,7 +140,7 @@ public class FreeBoardService {
 		System.out.println("제목 : ");
 		String title = Main.SC.nextLine();
 
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, title);
 		pstmt.executeUpdate();
@@ -202,7 +203,7 @@ public class FreeBoardService {
 		System.out.print("제목 : ");
 		String title = Main.SC.nextLine();
 
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, title);
 		pstmt.executeUpdate();
