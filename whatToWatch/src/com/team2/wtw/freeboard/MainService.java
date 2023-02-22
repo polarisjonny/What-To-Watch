@@ -13,7 +13,7 @@ public class MainService {
 		System.out.println("\n\n\n\n\n");
 		System.out.println("===============================자유게시판===============================");
 		
-		System.out.print("	1. 게시판 작성");
+		System.out.print("1. 게시판 작성");
 		System.out.print("  2. 게시판 조회");
 		System.out.print("  3. 게시판 수정");
 		System.out.print("  4. 게시판 삭제");
@@ -66,6 +66,7 @@ public class MainService {
 		
 		showMenu();
 		
+		
 		String pick = Main.SC.nextLine();
 		
 		if(pick.equals("5")) {return true;}
@@ -75,6 +76,13 @@ public class MainService {
 		return false;
 	}//메인화면
 	
-	
+	//2초지연
+	public void sleep() throws Exception {
+		
+		for(int i=0 ; i<3 ; i++) {
+			Thread.sleep(1000);
+			System.out.println();
+		}
+	}
 
 }
