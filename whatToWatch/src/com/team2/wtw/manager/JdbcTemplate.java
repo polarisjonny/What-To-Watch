@@ -9,8 +9,8 @@ import java.sql.SQLException;
 public class JdbcTemplate {
 
     public static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    public static final String USERNAME = "C##TEAM2";
-    public static final String PASSWORD = "TEAM2";
+    public static final String USERNAME = "C##KH";
+    public static final String PASSWORD = "KH";
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USERNAME, PASSWORD);
