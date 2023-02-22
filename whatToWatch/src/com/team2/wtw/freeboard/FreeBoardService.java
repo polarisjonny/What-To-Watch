@@ -9,6 +9,8 @@ import com.team2.wtw.freeboard.comment.CommentService;
 import com.team2.wtw.main.Main;
 
 public class FreeBoardService {
+	
+	
 
 	public ArrayList boardNoList = new ArrayList();
 	
