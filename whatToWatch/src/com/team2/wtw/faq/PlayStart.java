@@ -1,5 +1,7 @@
 package com.team2.wtw.faq;
 
+import com.team2.wtw.qa.QandA;
+
 public class PlayStart {
 	Faq faq = new Faq();
 	QandA qa = new QandA();

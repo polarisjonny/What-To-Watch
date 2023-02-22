@@ -72,7 +72,8 @@ public class FreeBoardService {
 		}
 
 		conn.close();
-	
+		
+		new MainService().sleep();
 
 	}// bw
 		
@@ -143,7 +144,7 @@ public class FreeBoardService {
 			}else {
 			}
 		} 
-
+		 new MainService().sleep();
 	}// boardsearch
 
 	// 게시물 수정
@@ -219,6 +220,8 @@ public class FreeBoardService {
 		
 
 		conn.close();
+		
+		new MainService().sleep();
 	}// EDIT
 
 	// 게시물 삭제
@@ -286,6 +289,8 @@ public class FreeBoardService {
 		
 		
 		conn.close();
+		
+		new MainService().sleep();
 
 	}// 게시물 삭제
 
