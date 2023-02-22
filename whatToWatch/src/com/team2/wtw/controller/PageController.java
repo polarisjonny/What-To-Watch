@@ -3,6 +3,9 @@ package com.team2.wtw.controller;
 import com.team2.wtw.contents.DramaContents;
 import com.team2.wtw.contents.EntertainmentContents;
 import com.team2.wtw.contents.MovieContents;
+
+import com.team2.wtw.eventboard.EventMain;
+
 import com.team2.wtw.freeboard.FreeBoardMain;
 import com.team2.wtw.main.Main;
 import com.team2.wtw.search.Search;
@@ -91,7 +94,8 @@ public class PageController {
 			}
 			// 이벤트
 			else if (userInput.equals("/8") || userInput.equals("/이벤트")) {
-
+				EventMain event = new EventMain();
+				event.startEventBoard();
 
 			}
 			// 문의게시판
