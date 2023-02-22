@@ -3,7 +3,7 @@ package com.team2.wtw.controller;
 import com.team2.wtw.contents.DramaContents;
 import com.team2.wtw.contents.EntertainmentContents;
 import com.team2.wtw.contents.MovieContents;
-
+import com.team2.wtw.freeboard.FreeBoardMain;
 import com.team2.wtw.main.Main;
 import com.team2.wtw.search.Search;
 import com.team2.wtw.template.PrintTemplate;

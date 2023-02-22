@@ -1,14 +1,13 @@
-package qa;
+package com.team2.wtw.faq;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import jdbctemplate.JdbcTemplate;
-import main.Main;
+import qa.Qfunction;
 
 public class Afunction {
-	public static int QuestionNo;
+public static int QuestionNo;
 	
 	//답변할 문의내용보기
 	public void answerList() throws Exception {
@@ -89,4 +88,4 @@ public class Afunction {
 		}
 		System.out.println("		==============================================");
 	}
-}//
+}
