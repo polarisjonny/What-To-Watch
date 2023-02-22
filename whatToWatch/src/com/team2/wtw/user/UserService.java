@@ -291,5 +291,31 @@ public class UserService {
 			e.printStackTrace();
 		}
 	}
+	
+	//회원 전체 목록 조회
+	public void getAllUser() {
+		try {
+			String sql = "SELECT MEMBER_NO, MEMBER_ID, MEMBER_PWD, MEMBER_NICK FROM MEMBER";
+			
+			Connection conn = JdbcTemplate.getConnection();
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int memberNo = rs.getInt("MEMBER_NO");
+				String memberId = rs.getString("MEMBER_ID");
+				String memberPwd = rs.getString("MEMBER_PWD");
+				String memberNick = rs.getString("MEMBER_NICK");
+				
+				System.out.println(memberNo+" | "+memberId+" | "+memberPwd+" | "+memberNick);
+			}
+		} catch(SQLException e) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }
