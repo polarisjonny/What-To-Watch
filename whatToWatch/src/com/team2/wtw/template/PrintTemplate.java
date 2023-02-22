@@ -17,6 +17,10 @@ public class PrintTemplate {
 		printFloor();
 
 	} // method | printHeaderMenu
+	
+	private void printTitle() {
+	                        
+	}
 
 	private void printCeiling() {
 		
