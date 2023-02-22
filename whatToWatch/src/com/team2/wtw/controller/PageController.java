@@ -80,7 +80,6 @@ public class PageController {
 				try {
 					new FreeBoardMain().boardMain();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				

@@ -10,6 +10,7 @@ public class MainService {
 	//선택지 보여주기 
 	public void showMenu() throws Exception {
 		
+		System.out.println("\n\n\n\n\n");
 		System.out.println("===============================자유게시판===============================");
 		
 		System.out.print("1. 게시판 작성");
@@ -21,6 +22,13 @@ public class MainService {
 		System.out.println("=====================================================================");
 		
 		fs.BoardList();
+		System.out.println("=====================================================================");
+		System.out.println("위의 헤더 메뉴를 사용할때는 숫자를 입력해주세요 . (ex. 1 enter , 3 enter )");
+		System.out.println("=====================================================================");
+		
+		System.out.println("\n\n\n\n\n");
+		
+		
 		
 	}//선택지 보여주기 
 	
@@ -29,10 +37,25 @@ public class MainService {
 		
 		switch(pick) {
 		
-		case "1" :  fs.BoardWrite();    break;
-		case "2" :  fs.BoardSearch();      break;
-		case "3" :  fs.edit();      break;
-		case "4" :  fs.boardDelect();      break;
+		case "1" : 
+					if(Main.userData.getUserNum()==0) 
+						{
+							System.out.println("*******로그인하고 이용하세요 ㅜㅜ********");
+						}else{fs.BoardWrite();}   break;
+					
+		case "2" :  
+					fs.BoardSearch();      break;
+		case "3" :
+					if(Main.userData.getUserNum()==0) 
+						{
+							System.out.println("********로그인하고 이용하세요 ㅜㅜ********");
+						}else{fs.edit();}   break;
+					
+		case "4" : 
+					if(Main.userData.getUserNum()==0) 
+						{
+							System.out.println("********로그인하고 이용하세요 ㅜㅜ********");
+						}else {fs.boardDelect();}    break;
 		default :  System.out.println("잘못입력하였습니다");
 		}
 		
