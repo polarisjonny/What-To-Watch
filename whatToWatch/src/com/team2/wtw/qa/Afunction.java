@@ -23,6 +23,8 @@ public class Afunction {
 		pstmt.setString(1, questionNo);
 		ResultSet rs = pstmt.executeQuery();
 		
+		
+		
 		System.out.println();
 		System.out.println("		=======================답변할 문의 확인=======================");
 		if(rs.next()) {
