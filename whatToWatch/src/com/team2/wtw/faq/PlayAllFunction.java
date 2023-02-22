@@ -1,5 +1,6 @@
 package com.team2.wtw.faq;
 
+import com.team2.wtw.main.Main;
 
 public class PlayAllFunction {
 	PlayStart ps = new PlayStart();

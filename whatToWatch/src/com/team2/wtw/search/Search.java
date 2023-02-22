@@ -66,26 +66,6 @@ public class Search {
 			setSearchScope(null);
 		}
 
-//		switch (scope) {
-//		case "1":
-//			setSearchScope(scope);
-//			break;
-//		case "2":
-//			setSearchScope(scope);
-//			break;
-//		case "3":
-//			setSearchScope(scope);
-//			break;
-//		case "4":
-//			setSearchScope(scope);
-//			break;
-//		default:
-//			System.out.println("잘못된 입력입니다..");
-//			break;
-//		}
-//
-//		setSearchScope(null);
-
 	}
 
 	private void selectSearchCategory() {
@@ -117,26 +97,6 @@ public class Search {
 			setSearchCategory(null);
 		}
 
-//		switch (category) {
-//		case "1":
-//			setSearchCategory(category);
-//			break;
-//		case "2":
-//			setSearchCategory(category);
-//			break;
-//		case "3":
-//			setSearchCategory(category);
-//			break;
-//		case "4":
-//			setSearchCategory(category);
-//			break;
-//		default:
-//			System.out.println("잘못된 입력입니다..");
-//			break;
-//		}
-//
-//		setSearchCategory(null);
-
 	}
 
 	private void getKeyword() {
@@ -154,11 +114,11 @@ public class Search {
 
 		} else if (searchCategory.equals("2")) {
 
-			directorSearch();
+			starringSearch();
 
 		} else if (searchCategory.equals("3")) {
 
-			starringSearch();
+			directorSearch();
 
 		} else if (searchCategory.equals("4")) {
 
@@ -225,6 +185,8 @@ public class Search {
 				searchResultList.add(searchResultSet.getString("CONTENTS_NO"));
 				System.out.printf("%d. %s\n", i, searchResultSet.getString("CONTENTS_TITLE"));
 
+				i++;
+				
 			}
 
 		} catch (SQLException e) {
@@ -267,6 +229,8 @@ public class Search {
 				System.out.printf("%d. %s \t\t %s\n", i, searchResultSet.getString("CONTENTS_TITLE"),
 						searchResultSet.getString("DIRECTOR_NAME"));
 
+				i++;
+				
 			}
 
 		} catch (SQLException e) {
@@ -310,6 +274,8 @@ public class Search {
 				System.out.printf("%d. %s \t\t %s\n", i, searchResultSet.getString("CONTENTS_TITLE"),
 						searchResultSet.getString("STARRING_NAME"));
 
+				i++;
+				
 			}
 
 		} catch (SQLException e) {
@@ -352,6 +318,8 @@ public class Search {
 				searchResultList.add(searchResultSet.getString("CONTENTS_NO"));
 				System.out.printf("%d. %s \t\t %s\n", i, searchResultSet.getString("CONTENTS_TITLE"),
 						searchResultSet.getString("GENRE_NAME"));
+				
+				i++;
 
 			}
 

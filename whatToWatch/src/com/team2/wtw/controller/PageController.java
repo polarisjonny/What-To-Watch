@@ -3,6 +3,8 @@ package com.team2.wtw.controller;
 import com.team2.wtw.contents.DramaContents;
 import com.team2.wtw.contents.EntertainmentContents;
 import com.team2.wtw.contents.MovieContents;
+import com.team2.wtw.eventboard.EventMain;
+import com.team2.wtw.faq.PlayAllFunction;
 import com.team2.wtw.freeboard.FreeBoardMain;
 import com.team2.wtw.main.Main;
 import com.team2.wtw.manager.Menu;
@@ -93,22 +95,30 @@ public class PageController {
 			// 이벤트
 			else if (userInput.equals("/8") || userInput.equals("/이벤트")) {
 
+				EventMain em = new EventMain();
+				em.startEventBoard();
 
 			}
-			// 문의게시판
-			else if (userInput.equals("/9") || userInput.equals("/문의게시판")) {
+			// FAQ/문의게시판
+			else if (userInput.equals("/9") || userInput.equals("/문의게시판") || userInput.equals("/FAQ") ) {
 
+				PlayAllFunction paf = new PlayAllFunction();
+				try {
+					paf.goFunction();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				
-				
-			}
-			// FAQ
-			else if (userInput.equals("/10") || userInput.equals("/FAQ")) {
-
-				
-
 			}
 			//설정(관리자)
 			else if (userInput.equals("/11") || userInput.equals("/관리자")) {
+				
+				Menu m = new Menu();
+				try {
+					m.choiceMenu();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				
 			}
 

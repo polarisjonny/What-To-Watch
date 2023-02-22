@@ -4,7 +4,7 @@ import com.team2.wtw.main.Main;
 
 public class PrintTemplate {
 
-	private String[] headerMenu = new String[10];
+	private String[] headerMenu = new String[9];
 	
 	//헤드 메뉴
 	public void printHeaderMenu() {
@@ -53,8 +53,7 @@ public class PrintTemplate {
 			headerMenu[5] = "6. 예 능";
 			headerMenu[6] = "7. 자유게시판";
 			headerMenu[7] = "8. 이벤트";
-			headerMenu[8] = "9. 문의게시판";
-			headerMenu[9] = "10. FAQ";
+			headerMenu[8] = "9. FAQ/문의게시판";
 		} else if (Main.userData.getUserNum() != 0) {
 			headerMenu[0] = "1. 내정보";
 			headerMenu[1] = "2. 로그아웃";
@@ -64,8 +63,7 @@ public class PrintTemplate {
 			headerMenu[5] = "6. 예 능";
 			headerMenu[6] = "7. 자유게시판";
 			headerMenu[7] = "8. 이벤트";
-			headerMenu[8] = "9. 문의게시판";
-			headerMenu[9] = "10. FAQ";
+			headerMenu[8] = "9. FAQ/문의게시판";
 		}
 		
 	} // method | menuBranch

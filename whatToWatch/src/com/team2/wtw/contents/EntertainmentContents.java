@@ -16,6 +16,8 @@ public class EntertainmentContents {
 	private String[] EntList = new String[10];
 	
 	private int entCount;
+	
+	private int limit;
 
 	public void processEnt() {
 
@@ -99,6 +101,8 @@ public class EntertainmentContents {
 							enttList_ResultSet.getString("SYNOPSIS"), enttList_ResultSet.getString("RELEASEDATE"));
 					i++;
 				}
+				
+				limit = i;
 
 				PrintTemplate.printFloor();
 
@@ -157,9 +161,22 @@ public class EntertainmentContents {
 
 	// 선택한 예능 세부 정보 보기
 	public String showEntDetail() {
+		
+		String input = "1";
+		boolean isWrongInput = true;
 
-		System.out.print("세부 정보를 볼 예능의 번호를 입력해주세요 : ");
-		String input = Main.SC.nextLine();
+		while (isWrongInput) {
+			
+			System.out.print("세부 정보를 볼 예능의 번호를 입력해주세요 : ");
+			input = Main.SC.nextLine();
+			
+			if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= limit) {
+				isWrongInput = false;
+			} else {
+				System.out.println("범위 밖 입력입니다.");
+				isWrongInput = true;
+			}
+		}
 
 		PrintTemplate.printFloor();
 		

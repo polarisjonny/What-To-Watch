@@ -8,10 +8,10 @@ import com.team2.wtw.contents.DramaContents;
 import com.team2.wtw.contents.EntertainmentContents;
 import com.team2.wtw.contents.MovieContents;
 import com.team2.wtw.eventboard.EventBoardService;
-import com.team2.wtw.faq.Afunction;
 import com.team2.wtw.faq.Faq;
 import com.team2.wtw.faq.PlayStart;
 import com.team2.wtw.freeboard.FreeBoardService;
+import com.team2.wtw.qa.Afunction;
 import com.team2.wtw.review.Review;
 import com.team2.wtw.sanction.SanctionMember;
 
