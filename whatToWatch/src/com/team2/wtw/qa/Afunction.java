@@ -1,11 +1,11 @@
-package qa;
+package com.team2.wtw.qa;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import jdbctemplate.JdbcTemplate;
-import main.Main;
+import com.team2.wtw.faq.JdbcTemplate;
+import com.team2.wtw.main.Main;
 
 public class Afunction {
 	public static int QuestionNo;

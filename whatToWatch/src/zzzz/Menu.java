@@ -1,4 +1,4 @@
-package com.team2.wtw.manager;
+package zzzz;
 
 import java.sql.Connection;
 import java.util.InputMismatchException;
@@ -10,6 +10,7 @@ import com.team2.wtw.contents.MovieContents;
 import com.team2.wtw.eventboard.EventBoardService;
 
 import com.team2.wtw.freeboard.FreeBoardService;
+import com.team2.wtw.manager.EventManage;
 import com.team2.wtw.review.Review;
 import com.team2.wtw.sanction.SanctionMember;
 

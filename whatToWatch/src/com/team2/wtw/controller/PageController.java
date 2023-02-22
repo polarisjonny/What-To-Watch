@@ -3,6 +3,7 @@ package com.team2.wtw.controller;
 import com.team2.wtw.contents.DramaContents;
 import com.team2.wtw.contents.EntertainmentContents;
 import com.team2.wtw.contents.MovieContents;
+import com.team2.wtw.faq.PlayAllFunction;
 import com.team2.wtw.freeboard.FreeBoardMain;
 import com.team2.wtw.main.Main;
 import com.team2.wtw.search.Search;
@@ -11,7 +12,7 @@ import com.team2.wtw.user.UserService;
 
 public class PageController {
 
-	public void controllPage() {
+	public void controllPage() throws Exception {
 
 		String userInput = "";
 		UserService us = new UserService();
@@ -97,7 +98,8 @@ public class PageController {
 			// 문의게시판
 			else if (userInput.equals("/9") || userInput.equals("/문의게시판")) {
 
-				
+				PlayAllFunction paf = new PlayAllFunction();
+				paf.goFunction();
 				
 			}
 			// FAQ

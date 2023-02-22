@@ -1,4 +1,4 @@
-package jdbctemplate;
+package com.team2.wtw.template;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

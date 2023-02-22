@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import qa.PlayAllFunction;
-import qa.Qfunction;
-
 public class MyQa {
 
 	public static String Qno;

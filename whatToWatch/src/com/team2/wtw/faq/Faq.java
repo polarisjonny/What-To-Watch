@@ -1,12 +1,8 @@
-package faq;
+package com.team2.wtw.faq;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import Jdbctemplate.JdbcTemplate;
-import main.Main;
-import playstart.PlayStart;
 
 //자주묻는질문
 public class Faq {

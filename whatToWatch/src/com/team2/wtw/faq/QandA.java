@@ -1,9 +1,5 @@
 package com.team2.wtw.faq;
 
-import qa.Afunction;
-import qa.MyQa;
-import qa.Qfunction;
-
 public class QandA {
 
 	//메뉴보여주기
