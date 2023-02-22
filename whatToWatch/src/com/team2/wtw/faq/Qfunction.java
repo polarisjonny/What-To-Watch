@@ -1,14 +1,14 @@
-package qa;
+package com.team2.wtw.faq;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import jdbctemplate.JdbcTemplate;
-import main.Main;
+import qa.MyQa;
 
 public class Qfunction {
-	
+
+
 	String category;
 	String detail;
 	public static String moreQ = "0";
@@ -172,6 +172,5 @@ public class Qfunction {
 		case "3" : mq.myQuestion();
 		}
 	}
-	
 	
 }

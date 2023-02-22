@@ -1,8 +1,7 @@
-package jdbctemplate;
+package com.team2.wtw.faq;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class JdbcTemplate {
 	
