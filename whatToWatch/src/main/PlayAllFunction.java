@@ -1,10 +1,10 @@
-package faq;
+package main;
 
-public class PlayAllFunction {
-	
 import playstart.PlayStart;
 
-PlayStart ps = new PlayStart();
+public class PlayAllFunction {
+	PlayStart ps = new PlayStart();
+	
 	
 	public void goFunction() throws Exception {
 		boolean ending = playAllFunction();
@@ -41,12 +41,12 @@ PlayStart ps = new PlayStart();
 	
 	public String allFunctionMenu() {
 		System.out.println();
-		System.out.println("1.자주묻는질문(FAQ)");
-		System.out.println("2.문의사항");
-		System.out.println("3.종료");
+		System.out.println("=================================================================");
+		System.out.println("       1.자주묻는질문(FAQ)     |     2.문의사항           |      3.종료           ");
+		System.out.println("=================================================================");
 		String input = Main.SC.nextLine();
 		
 		return input;
 	}
-
+	
 }
