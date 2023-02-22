@@ -1,8 +1,11 @@
-package com.team2.wtw.faq;
+package com.team2.wtw.qa;
 
+import com.team2.wtw.faq.Main;
+import com.team2.wtw.faq.PlayStart;
 
 public class PlayAllFunction {
-	PlayStart ps = new PlayStart();
+
+PlayStart ps = new PlayStart();
 	
 	
 	public void goFunction() throws Exception {

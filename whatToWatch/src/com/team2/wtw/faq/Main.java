@@ -1,8 +1,6 @@
-package main;
+package com.team2.wtw.faq;
 
 import java.util.Scanner;
-
-import playstart.PlayStart;
 
 public class Main {
 	public static final Scanner SC = new Scanner(System.in);

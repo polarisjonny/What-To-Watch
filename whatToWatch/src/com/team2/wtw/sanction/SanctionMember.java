@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 import com.team2.wtw.manager.JdbcTemplate;
+import com.team2.wtw.template.JdbcConncetionTemplate;
 
 public class SanctionMember {
 	
@@ -36,12 +37,8 @@ public class SanctionMember {
 	    // 제재 회원 조회
 	    public void getSanctionInfo() {
 	        Connection conn = null;
-	        try {
-	            conn = jt.getConnection();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	            return;
-	        }
+	        conn = new JdbcConncetionTemplate().getJdbcConnection();
+	        
 	        
 	        // 제재회원 정보 검색
 	        String query = "SELECT * FROM MEMBER_SANCTION";
@@ -128,7 +125,7 @@ public class SanctionMember {
 	        }
 
 	        try {
-	            Connection conn = jt.getConnection();
+	            Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 	            updateSanctionExpirationDate(conn, memberNo, new java.sql.Date(newDate.getTime()).toLocalDate(), LocalDate.parse(newDateStr));
 	            System.out.println("제재 종료일시가 성공적으로 업데이트 되었습니다.");
 	        } catch (SQLException e) {
@@ -141,12 +138,7 @@ public class SanctionMember {
 	  //회원번호 입력해서 제재하기
 	    public static void inputSanction() {
 	        Connection conn = null;
-	        try {
-	            conn = jt.getConnection();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	            return;
-	        }
+	        conn = new JdbcConncetionTemplate().getJdbcConnection();
 	        
 	        Scanner sc = new Scanner(System.in);
 	        System.out.println("\n-------회원 제재-------");

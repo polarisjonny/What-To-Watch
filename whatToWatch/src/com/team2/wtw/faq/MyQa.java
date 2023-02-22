@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import qa.PlayAllFunction;
-import qa.Qfunction;
+import com.team2.wtw.template.JdbcConncetionTemplate;
 
 public class MyQa {
 
@@ -14,7 +13,7 @@ public class MyQa {
 	
 	//문의 수정하기
 	public void updateQ() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		System.out.print("수정할 문의사항의 문의번호를 입력해주세요 : ");
 		Qno = Main.SC.nextLine();
@@ -56,7 +55,7 @@ public class MyQa {
 	public void deleteQ() throws Exception {
 		PlayAllFunction paf = new PlayAllFunction();
 		
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		System.out.println();
 		System.out.print("삭제할 게시글의 번호를 입력하세요 : ");
@@ -94,7 +93,7 @@ public class MyQa {
 	}
 	
 	public void realDelete() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		String s = "DELETE QA WHERE Q_NO = ?";
 		PreparedStatement pstmt = conn.prepareStatement(s);
@@ -111,7 +110,7 @@ public class MyQa {
 	
 	//내 문의 보기
 	public void myQuestion() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		System.out.print("회원번호를 입력하세요(숫자) : ");
 		Qfunction.memberNo = Main.SC.nextLine();

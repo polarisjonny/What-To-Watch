@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import qa.MyQa;
+import com.team2.wtw.template.JdbcConncetionTemplate;
+
 
 public class Qfunction {
 
@@ -94,7 +95,7 @@ public class Qfunction {
 	
 	//카테고리 선택 후 문의작성
 	public void writeQuestion() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		System.out.println();
 		System.out.print("제목 : ");
@@ -133,7 +134,7 @@ public class Qfunction {
 	
 	//문의게시판 목록
 	public void qaBoardList() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		String s = "SELECT Q_NO, ADMIN_NO, MEMBER_NO, CATEGORY_NAME, DETAIL_CATEGORY_CODE, Q_TITLE, Q_CONTENT, TO_CHAR(Q_DATE, 'YYYY/MM/DD HH24:MI') AS Q_DATE, A_NO, A_TITLE, A_CONTENT, TO_CHAR(A_DATE, 'YYYY/MM/DD HH24:MI') AS A_DATE, DELETE_YN, NVL(MORE_Q_NO, '0') AS MORE_Q_NO FROM QA JOIN QA_CATEGORY ON QA.CATEGORY_CODE = QA_CATEGORY.CATEGORY_CODE";
 		PreparedStatement pstmt = conn.prepareStatement(s);

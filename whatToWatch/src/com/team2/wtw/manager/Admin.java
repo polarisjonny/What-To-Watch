@@ -5,14 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.team2.wtw.template.JdbcConncetionTemplate;
+
 public class Admin {
-	
-static JdbcTemplate jt = new JdbcTemplate();
+
 	
 
 	//관리자 목록 보여주기
     public static void AdiminList() {
-        try (Connection conn = jt.getConnection()) {
+        try (Connection conn = new JdbcConncetionTemplate().getJdbcConnection();) {
             // SELECT 문을 생성하여 관리자 목록 검색
             String sql = "SELECT * FROM ADMIN";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -38,7 +39,7 @@ static JdbcTemplate jt = new JdbcTemplate();
     // 권한번호 삭제, 추가, 수정 
     public static void managePermission(int adminNo, int permissionNo, String action) {
         try {
-        	Connection conn = jt.getConnection();
+        	Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
             PreparedStatement ps;
             switch (action) {
                 case "삭제":

@@ -59,6 +59,8 @@ public class UserService {
 			pstmt.setString(1, data.getUserId());
 			pstmt.setString(2, data.getUserPwd());
 			ResultSet rs = pstmt.executeQuery();
+			
+			
 
 			if (rs.next()) {
 				int memberNum = rs.getInt("MEMBER_NO");
@@ -68,12 +70,27 @@ public class UserService {
 				
 				System.out.println(nick + "님 환영합니다:)");
 
-			} else {
+			}
+			//아이디나 비밀번호가 없을 경우
+			else {
 				System.out.println("로그인 실패");
+				System.out.println();
+				int number = uv.findIdOrPwd();
+				
+				//아이디나 비밀번호 찾기
+				switch(number) {
+				case 1 : 
+					findId();
+					login();
+					break;
+				case 2 :
+					findPwd();
+					login();
+					break;
 			}
 
 			conn.close();
-
+			}
 		} catch (SQLException e) {
 			System.out.println("값을 잘못 입력하셨습니다.");
 		} catch (Exception e) {
@@ -190,15 +207,13 @@ public class UserService {
 
 	// 회원정보 조회
 	public void searchMemberInfo() {
-		UserView uv = new UserView();
-		UserData data = uv.GetSearchMemberInfo();
-
+		UserView view = new UserView();
+		
 		try {
 			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
-			String sql = "SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NICK, SIGN_UP_DATE, EMAIL, PHONE_NUMBER FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
+			String sql = "SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NICK, SIGN_UP_DATE, EMAIL, PHONE_NUMBER FROM MEMBER WHERE MEMBER_NO = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, data.getUserId());
-			pstmt.setString(2, data.getUserPwd());
+			pstmt.setInt(1, Main.userData.getUserNum());			
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -228,6 +243,13 @@ public class UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		int number = view.selectUserInfo();
+		switch(number) {
+		case 1 : break;
+		case 2 : modifyMemberInfo();	break;
+		case 3 : withdrawUser();		break;
+		}
 	}
 
 	// 회원정보 수정
@@ -238,12 +260,12 @@ public class UserService {
 		try {
 			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
-			String sql = "UPDATE MEMBER SET MEMBER_NICK = ?, EMAIL = ?, PHONE_NUMBER = ? WHERE MEMBER_ID = ?";
+			String sql = "UPDATE MEMBER SET MEMBER_NICK = ?, EMAIL = ?, PHONE_NUMBER = ? WHERE MEMBER_NO = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, data.getUserNick());
 			pstmt.setString(2, data.getUserEmail());
 			pstmt.setString(3, data.getUserPhoneNumber());
-			pstmt.setString(4, data.getUserId());
+			pstmt.setInt(4, Main.userData.getUserNum());
 
 			int result = pstmt.executeUpdate();
 
@@ -264,16 +286,14 @@ public class UserService {
 	// 회원 탈퇴
 	public void withdrawUser() {
 		UserView uv = new UserView();
-		UserData data = uv.withdrawMemberInfo();
-
+		
 		try {
-			String sql = "UPDATE MEMBER SET STATE_CODE = 3 WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
+			String sql = "UPDATE MEMBER SET STATE_CODE = 3, MEMBER_NO = 0 WHERE MEMBER_NO = ?";
 
 			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, data.getUserId());
-			pstmt.setString(2, data.getUserPwd());
+			pstmt.setInt(1, Main.userData.getUserNum());
 
 			int result = pstmt.executeUpdate();
 
@@ -290,6 +310,8 @@ public class UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		
 	}
 	
 	//회원 전체 목록 조회
