@@ -14,12 +14,8 @@ public class MemberManage {
 	static JdbcTemplate jt = new JdbcTemplate();
 	UserService us = new UserService();
 	SanctionMember sm = new SanctionMember();
-	
-	
-	
-	public void generalMember() {
-		//회원 정보 조회
-	}
+
+
 	
 	public void sanctionMember() {
 		//제제회원 조회
@@ -31,6 +27,8 @@ public class MemberManage {
 	
 	public void manager() {
 		//전체 관리자 목록 조회
+
+		AdminManage.AdiminList();
 		Admin.AdiminList();
 		//관리자 번호 선택 후 삭제, 수정, 추가
         System.out.print("\n관리자 번호 선택 : ");
@@ -39,7 +37,9 @@ public class MemberManage {
         int permissionNo = sc.nextInt();
         System.out.print("다음 작업 중 선택 (삭제, 수정, 추가): ");
         String action = sc.next();
-        Admin.managePermission(adminNo, permissionNo, action);
+        AdminManage.managePermission(adminNo, permissionNo, action);
+
+
 		
 	}
 	

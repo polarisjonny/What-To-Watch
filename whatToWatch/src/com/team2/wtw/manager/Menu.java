@@ -8,10 +8,15 @@ import com.team2.wtw.contents.DramaContents;
 import com.team2.wtw.contents.EntertainmentContents;
 import com.team2.wtw.contents.MovieContents;
 import com.team2.wtw.eventboard.EventBoardService;
+
+import com.team2.wtw.faq.Faq_BaiscFunction;
 import com.team2.wtw.freeboard.FreeBoardService;
 import com.team2.wtw.review.Review;
 import com.team2.wtw.review.Rivew;
 import com.team2.wtw.sanction.SanctionMember;
+
+import com.team2.wtw.user.UserService;
+
 
 public class Menu {
 	
@@ -30,6 +35,10 @@ public class Menu {
     EntertainmentContents ec = new EntertainmentContents();
     MovieContents mc = new MovieContents();
     ReviewManage rm = new ReviewManage();
+    
+    Faq_BaiscFunction fbf = new Faq_BaiscFunction();
+    UserService us = new UserService();
+
 
     public Menu(String username) {
         this.username = username;
@@ -116,9 +125,10 @@ public class Menu {
     
     //회원관리 메뉴
     public void memberManagementMenu() throws Exception {
-        System.out.println("환영합니다 관리자님. 회원관리 페이지입니다.\n");
+        System.out.println("\n환영합니다 관리자님. 회원관리 페이지입니다.\n");
+
         System.out.println("0. 관리자 홈");
-        System.out.println("1. 일반회원");
+        System.out.println("1. 일반회원 조회");
         System.out.println("2. 제재회원");
         System.out.println("3. 관리자");
         System.out.print("메뉴 선택 : ");
@@ -128,7 +138,7 @@ public class Menu {
 	    		choiceMenu();
 	    		break;
             case 1:
-                mm.generalMember();
+                us.getAllUser();
                 break;
             case 2:
             	mm.sanctionMember();
@@ -143,7 +153,9 @@ public class Menu {
     
     //게시판관리 메뉴
     public void boardManagementMenu() throws Exception {
-    	System.out.println("환영합니다 관리자님. 게시판관리 페이지입니다.");
+
+    	System.out.println("\n환영합니다 관리자님. 게시판관리 페이지입니다.");
+
     	System.out.println("0. 관리자 홈");
     	System.out.println("1. 게시판 관리");
     	System.out.println("2. 제재 게시판 목록");
@@ -165,7 +177,9 @@ public class Menu {
     
     //리뷰관리 메뉴
     public void reviewManagementMenu() throws Exception {
-    	System.out.println("환영합니다 관리자님. 리뷰관리 페이지입니다.");
+
+    	System.out.println("\n환영합니다 관리자님. 리뷰관리 페이지입니다.");
+
     	System.out.println("0. 관리자 홈");
     	System.out.println("1. 리뷰 관리");
     	System.out.println("2. 제재 리뷰 목록");
@@ -187,7 +201,9 @@ public class Menu {
 	
     //문의관리 메뉴
 	public void questionManagementMenu() throws Exception {
-		System.out.println("환영합니다 관리자님. 문의관리 페이지입니다.\n");
+
+		System.out.println("\n환영합니다 관리자님. 문의관리 페이지입니다.\n");
+
 		System.out.println("0. 관리자 홈");
         System.out.println("1. 자주묻는질문");
         System.out.println("2. 문의게시판");
@@ -198,17 +214,21 @@ public class Menu {
         		choiceMenu();
         		break;
         	case 1:
-        		//자주묻는질문 수정/추가/삭제
+        		fbf.faqPlayStart();
         		break;
         	case 2:
-        		//문의게시판 확인/답변
+        		//문의게시판 확인
+        		fbf.qaPlayStart();
+        		//문의게시판 답변
+
         }
 		
 	}
 	
 	//이벤트관리 메뉴
 	public void eventManagementMenu() throws Exception {
-		System.out.println("환영합니다 관리자님. 이벤트관리 페이지입니다.");
+		System.out.println("\n환영합니다 관리자님. 이벤트관리 페이지입니다.");
+
 		System.out.println("0. 관리자 홈");
 		System.out.println("1. 이벤트 추가/삭제/수정");
 		System.out.println("2. 점수 조회");
@@ -231,7 +251,9 @@ public class Menu {
 	
 	//컨텐츠관리 메뉴
 	public void contentsManagement() throws Exception {
-		System.out.println("환영합니다 관리자님. 컨텐츠관리 페이지입니다.");
+
+		System.out.println("\n환영합니다 관리자님. 컨텐츠관리 페이지입니다.");
+
 		System.out.println("0. 관리자 홈");
 		System.out.println("1. 드라마 추가/수정/삭제");
 		System.out.println("2. 예능 추가/수정/삭제");
@@ -244,15 +266,16 @@ public class Menu {
         		choiceMenu();
         		break;
         	case 1:
-        		dc.showDramaContents(0);
+        		dc.showDramaContents();
         		cm.contentsManage();
         		break;
         	case 2:
-        		ec.showEntContents(0);
+        		ec.showEnterContents();
         		cm.contentsManage();
         		break;
         	case 3:
-        		mc.showMovieContents(0);
+        		mc.showMovieContents();
+
         		cm.contentsManage();
         		break;
         }
