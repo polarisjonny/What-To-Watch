@@ -7,11 +7,11 @@ import java.sql.SQLException;
 
 public class ManagerService {
 	ManagerView view = new ManagerView();
-	ManagerData data = view.showManagerLogin();
+	ManagerData data = new ManagerData();
 	
 	//관리자인지 확인해서 관리자일 경우 홈 화면 보여주기
 	public boolean checkIfManager() {
-		view.showManagerLogin();
+		data = view.showManagerLogin();
 		
 		try {
 			Connection conn = JdbcTemplate.getConnection();

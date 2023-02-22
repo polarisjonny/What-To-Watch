@@ -128,7 +128,7 @@ public class EventBoardService {
 		String input = ev.viewIfWonEvent1();
 		
 		try {
-			if(input.equals("GO")) {
+			if(input.equals("GO") || input.equals("go")) {
 				String sql = "SELECT COUNT(REVIEW_NO) 갯수 FROM REVIEW WHERE MEMBER_NO = ?";
 				Connection conn = JdbcTemplate.getConnection();
 				
@@ -169,7 +169,7 @@ public class EventBoardService {
 		String input = ev.viewEvent2();
 		
 		try {
-			if(input.equals("START")) {
+			if(input.equals("START") || input.equals("start")) {
 				Event2Game game = new Event2Game();
 				int credit = game.playGame();
 				
