@@ -5,6 +5,7 @@ import com.team2.wtw.contents.EntertainmentContents;
 import com.team2.wtw.contents.MovieContents;
 import com.team2.wtw.freeboard.FreeBoardMain;
 import com.team2.wtw.main.Main;
+import com.team2.wtw.manager.Menu;
 import com.team2.wtw.search.Search;
 import com.team2.wtw.template.PrintTemplate;
 import com.team2.wtw.user.UserService;
@@ -92,6 +93,7 @@ public class PageController {
 			// 이벤트
 			else if (userInput.equals("/8") || userInput.equals("/이벤트")) {
 
+				
 
 			}
 			// 문의게시판
@@ -108,6 +110,14 @@ public class PageController {
 			}
 			//설정(관리자)
 			else if (userInput.equals("/11") || userInput.equals("/관리자")) {
+				
+				Menu m = new Menu();
+				try {
+					m.choiceMenu();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				
 			}
 

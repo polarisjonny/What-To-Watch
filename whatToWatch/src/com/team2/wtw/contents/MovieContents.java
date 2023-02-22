@@ -15,19 +15,21 @@ public class MovieContents {
 
 	private String[] movieList = new String[10];
 
+	private int movieCount;
+	
 	public void processMovie() {
 
 		// 총 드라마 컨텐츠 수 ( 페이지에 이용 )
-		int count = getCount();
+		getCount();
 		// 선택한 컨텐츠의 CONTENTS_NO. 리뷰로 넘길용도.
 		String choice = "";
 
 		// 컨텐츠가 없을리 없지만 없다면...
-		if (count == 0) {
+		if (movieCount == 0) {
 			System.out.println("컨텐츠 count 0개...");
 			// 옝화 컨텐츠 목록 출력 (10개씩)
 		} else {
-			showMovieContents(count);
+			showMovieContents();
 		}
 		// 세부 보기한 컨텐츠의 CONTENTS_NO. choice에 저장.
 		choice = showMovieDetail();
@@ -37,7 +39,7 @@ public class MovieContents {
 	}
 
 	// 총 옝화 컨텐츠 수 가져오기
-	private int getCount() {
+	private void getCount() {
 		String result = "";
 		int count = 0;
 
@@ -59,11 +61,11 @@ public class MovieContents {
 
 		count = ((count + 9) / 10) * 10;
 
-		return count;
+		movieCount = count;
 	} // method | getCount
 
 	// 영화 목록 출력하기
-	public void showMovieContents(int count) {
+	public void showMovieContents() {
 
 		int start = 0;
 		int end = 10;
@@ -101,13 +103,13 @@ public class MovieContents {
 
 				PrintTemplate.printFloor();
 
-				if (start == 0 && end == count) {
+				if (start == 0 && end == movieCount) {
 					// c
 					System.out.println("선택 | 현재페이지 : C");
 					System.out.print("입력 : ");
 					input = Main.SC.nextLine();
 
-				} else if (start == 0 && end < count) {
+				} else if (start == 0 && end < movieCount) {
 					// n , c
 					System.out.println("선택 | 다음페이지 : N, 현재페이지 : C");
 					System.out.print("입력 : ");
@@ -118,7 +120,7 @@ public class MovieContents {
 					} else if (input.equals("C")) {
 
 					}
-				} else if (start >= 10 && end < count) {
+				} else if (start >= 10 && end < movieCount) {
 					// p, n, c
 					System.out.println("선택 | 이전페이지 : P, 다음페이지 : N, 현재페이지 : C");
 					System.out.print("입력 : ");
@@ -132,7 +134,7 @@ public class MovieContents {
 					} else if (input.equals("C")) {
 
 					}
-				} else if (start >= 10 && end == count) {
+				} else if (start >= 10 && end == movieCount) {
 					// p, c
 					System.out.println("선택 | 이전페이지 : P, 현재페이지 : C");
 					System.out.print("입력 : ");

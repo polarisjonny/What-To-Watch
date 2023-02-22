@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.team2.wtw.freeboard.FreeBoardService;
-import com.team2.wtw.freeboard.GetConnection;
 import com.team2.wtw.main.Main;
 import com.team2.wtw.template.JdbcConncetionTemplate;
 

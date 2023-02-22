@@ -10,8 +10,7 @@ import com.team2.wtw.user.UserService;
 public class MemberManage {
 	
 	Scanner sc = new Scanner(System.in);
-	
-	static JdbcTemplate jt = new JdbcTemplate();
+
 	UserService us = new UserService();
 	SanctionMember sm = new SanctionMember();
 

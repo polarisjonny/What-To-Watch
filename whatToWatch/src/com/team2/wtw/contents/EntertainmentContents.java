@@ -14,20 +14,22 @@ import com.team2.wtw.template.PrintTemplate;
 public class EntertainmentContents {
 
 	private String[] EntList = new String[10];
+	
+	private int entCount;
 
 	public void processEnt() {
 
 		// 총 예능 컨텐츠 수 ( 페이지에 이용 )
-		int count = getCount();
+		getCount();
 		// 선택한 컨텐츠의 CONTENTS_NO. 리뷰로 넘길용도.
 		String choice = "";
 
 		// 컨텐츠가 없을리 없지만 없다면...
-		if (count == 0) {
+		if (entCount == 0) {
 			System.out.println("컨텐츠 count 0개...");
 			// 예능 컨텐츠 목록 출력 (10개씩)
 		} else {
-			showEntContents(count);
+			showEntContents();
 		}
 		// 세부 보기한 컨텐츠의 CONTENTS_NO. choice에 저장.
 		choice = showEntDetail();
@@ -37,7 +39,7 @@ public class EntertainmentContents {
 	}
 
 	// 총 예능 컨텐츠 수 가져오기
-	private int getCount() {
+	private void getCount() {
 		String result = "";
 		int count = 0;
 
@@ -59,11 +61,11 @@ public class EntertainmentContents {
 
 		count = ((count + 9) / 10) * 10;
 
-		return count;
+		entCount = count;
 	} // method | getCount
 
 	// 예능 목록 출력하기
-	public void showEntContents(int count) {
+	public void showEntContents() {
 
 		int start = 0;
 		int end = 10;
@@ -100,13 +102,13 @@ public class EntertainmentContents {
 
 				PrintTemplate.printFloor();
 
-				if (start == 0 && end == count) {
+				if (start == 0 && end == entCount) {
 					// c
 					System.out.println("선택 | 현재페이지 : C");
 					System.out.print("입력 : ");
 					input = Main.SC.nextLine();
 
-				} else if (start == 0 && end < count) {
+				} else if (start == 0 && end < entCount) {
 					// n , c
 					System.out.println("선택 | 다음페이지 : N, 현재페이지 : C");
 					System.out.print("입력 : ");
@@ -117,7 +119,7 @@ public class EntertainmentContents {
 					} else if (input.equals("C")) {
 
 					}
-				} else if (start >= 10 && end < count) {
+				} else if (start >= 10 && end < entCount) {
 					// p, n, c
 					System.out.println("선택 | 이전페이지 : P, 다음페이지 : N, 현재페이지 : C");
 					System.out.print("입력 : ");
@@ -131,7 +133,7 @@ public class EntertainmentContents {
 					} else if (input.equals("C")) {
 
 					}
-				} else if (start >= 10 && end == count) {
+				} else if (start >= 10 && end == entCount) {
 					// p, c
 					System.out.println("선택 | 이전페이지 : P, 현재페이지 : C");
 					System.out.print("입력 : ");

@@ -228,6 +228,8 @@ public class UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("1. 2.3.");
 	}
 
 	// 회원정보 수정

@@ -1,18 +1,18 @@
-package qa;
+package com.team2.wtw.qa;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import jdbctemplate.JdbcTemplate;
-import main.Main;
+import com.team2.wtw.main.Main;
+import com.team2.wtw.template.JdbcConncetionTemplate;
 
 public class Afunction {
 	public static int QuestionNo;
 	
 	//답변할 문의내용보기
 	public void answerList() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		System.out.println();
 		System.out.print("답변할 문의번호 : ");
@@ -48,7 +48,7 @@ public class Afunction {
 
 	//답변작성
 	public void writeA() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		System.out.print("답변제목 : ");
 		String title = Main.SC.nextLine();
@@ -70,7 +70,7 @@ public class Afunction {
 	
 	//답변확인
 	public void checkAnswer() throws Exception {
-		Connection conn = JdbcTemplate.jdbcTemplate();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		String s = "SELECT Q_NO, ADMIN_NO, MEMBER_NO, CATEGORY_NAME, DETAIL_CATEGORY_NAME, Q_TITLE, Q_CONTENT, TO_CHAR(Q_DATE, 'YYYY/MM/DD HH24:MI') AS Q_DATE, A_NO, A_TITLE, A_CONTENT, TO_CHAR(A_DATE, 'YYYY/MM/DD HH24:MI') AS A_DATE, DELETE_YN, NVL(MORE_Q_NO, '0') AS MORE_Q_NO FROM QA JOIN QA_CATEGORY ON QA.CATEGORY_CODE = QA_CATEGORY.CATEGORY_CODE JOIN DETAIL_CATEGORY ON QA.DETAIL_CATEGORY_CODE = DETAIL_CATEGORY.DETAIL_CATEGORY_CODE WHERE Q_NO = ?";
 		PreparedStatement pstmt = conn.prepareStatement(s);		

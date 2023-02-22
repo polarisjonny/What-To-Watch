@@ -46,7 +46,7 @@ public class FreeBoardService {
 
 
 	
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 		String sql = "INSERT INTO FREEBOARD(BOARD_NO,TITLE,CONTENT,MEMBER_NO) VALUES(SEQ_BOARD_BOARD_NO.NEXTVAL,?,?,?)";// 마지막
 																														// 물음표는
@@ -89,7 +89,7 @@ public class FreeBoardService {
 		String pickNo = Main.SC.nextLine();
 		System.out.println("-------------------------------------------------------------");
 		
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, pickNo);
@@ -161,7 +161,7 @@ public class FreeBoardService {
 		String pickNo = Main.SC.nextLine();
 		System.out.println("-------------------------------------------------------------");
 		
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, pickNo);
@@ -234,7 +234,7 @@ public class FreeBoardService {
 		String pickNo = Main.SC.nextLine();
 		System.out.println("-------------------------------------------------------------");
 		
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, pickNo);
