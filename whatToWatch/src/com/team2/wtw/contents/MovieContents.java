@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.team2.wtw.main.Main;
-import com.team2.wtw.review.Rivew;
+import com.team2.wtw.review.Review;
 import com.team2.wtw.template.JdbcConncetionTemplate;
 import com.team2.wtw.template.PrintTemplate;
 
@@ -33,7 +33,7 @@ public class MovieContents {
 		choice = showMovieDetail();
 
 		// 리뷰 기능으로
-		new Rivew().processReview(choice);
+		new Review().processReview(choice);
 	}
 
 	// 총 옝화 컨텐츠 수 가져오기
@@ -152,6 +152,7 @@ public class MovieContents {
 		}
 
 	} // method | showMovieContents
+	
 
 	// 선택한 옝화 세부 정보 보기
 	public String showMovieDetail() {
@@ -159,6 +160,8 @@ public class MovieContents {
 		System.out.print("세부 정보를 볼 영화의 번호를 입력해주세요 : ");
 		String input = Main.SC.nextLine();
 
+		PrintTemplate.printFloor();
+		
 		try {
 			// DB 연결
 			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
@@ -181,8 +184,13 @@ public class MovieContents {
 			String release_date = movieDetail_ResultSet.getString("RELEASE_DATE");
 
 			// 제목
-			System.out.println(contents_title);
-
+			System.out.print(contents_title);
+			
+			// 리뷰 평균
+			String avgScore = getAvgScore(movieList[Integer.parseInt(input) - 1]);
+			System.out.println("\t\t\t\t 평균 리뷰평점 : " + avgScore);
+			
+			
 			// 장르
 			String getGenre_sql = "SELECT GENRE_NAME\r\n" + "FROM CONTENTS_GENRE CG\r\n"
 					+ "    JOIN GENRE G ON CG.GENRE_NO = G.GENRE_NO\r\n" + "WHERE CG.CONTENTS_NO = " + contents_no
@@ -239,4 +247,35 @@ public class MovieContents {
 
 	} // method | showMovieDetail
 
+	
+	// 리뷰 평균 평점 구하기
+	public String getAvgScore(String contentsNo) {
+		
+		String avgScore = "";
+		
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
+		
+		String getAvg_sql = "SELECT AVG(REVIEW_SCORE)\r\n"
+				+ "FROM REVIEW\r\n"
+				+ "WHERE CONTENTS_NO = ?";
+		
+		try {
+			
+			PreparedStatement getAvg_pstmt = conn.prepareStatement(getAvg_sql);
+			getAvg_pstmt.setString(1, contentsNo);
+			
+			ResultSet avgResultSet = getAvg_pstmt.executeQuery();
+			
+			avgResultSet.next();
+			
+			avgScore = avgResultSet.getString("AVG(REVIEW_SCORE)");
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return avgScore;
+	}
+	
 } // class | MovieContents

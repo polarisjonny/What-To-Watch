@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.team2.wtw.main.Main;
-import com.team2.wtw.review.Rivew;
+import com.team2.wtw.review.Review;
 import com.team2.wtw.template.JdbcConncetionTemplate;
 import com.team2.wtw.template.PrintTemplate;
 
@@ -33,7 +33,7 @@ public class DramaContents {
 		choice = showDramaDetail();
 		
 		// 리뷰 기능으로
-		new Rivew().processReview(choice);
+		new Review().processReview(choice);
 	}
 
 	// 총 드라마 컨텐츠 수 가져오기
@@ -159,6 +159,8 @@ public class DramaContents {
 		System.out.print("세부 정보를 볼 드라마의 번호를 입력해주세요 : ");
 		String input = Main.SC.nextLine();
 
+		PrintTemplate.printFloor();
+		
 		try {
 			// DB 연결
 			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
