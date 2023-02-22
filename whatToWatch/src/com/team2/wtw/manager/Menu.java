@@ -9,13 +9,15 @@ import com.team2.wtw.contents.EntertainmentContents;
 import com.team2.wtw.contents.MovieContents;
 import com.team2.wtw.eventboard.EventBoardService;
 
-import com.team2.wtw.faq.Faq_BaiscFunction;
 import com.team2.wtw.freeboard.FreeBoardService;
 import com.team2.wtw.review.Review;
-import com.team2.wtw.review.Rivew;
 import com.team2.wtw.sanction.SanctionMember;
 
 import com.team2.wtw.user.UserService;
+
+import faq.Faq;
+import playstart.PlayStart;
+import qa.Afunction;
 
 
 public class Menu {
@@ -35,9 +37,10 @@ public class Menu {
     EntertainmentContents ec = new EntertainmentContents();
     MovieContents mc = new MovieContents();
     ReviewManage rm = new ReviewManage();
-    
-    Faq_BaiscFunction fbf = new Faq_BaiscFunction();
+    Faq f = new Faq();
     UserService us = new UserService();
+    PlayStart ps = new PlayStart();
+    Afunction af = new Afunction();
 
 
     public Menu(String username) {
@@ -220,12 +223,15 @@ public class Menu {
         		choiceMenu();
         		break;
         	case 1:
-        		fbf.faqPlayStart();
+        		ps.faqPlayStart();
         		break;
         	case 2:
         		//문의게시판 확인
-        		fbf.qaPlayStart();
+        		ps.qaPlayStart();
         		//문의게시판 답변
+        		af.answerList();
+        		af.writeA();
+        		af.checkAnswer();
 
         }
 		
