@@ -17,6 +17,8 @@ public class DramaContents {
 
 	private int dramaCount;
 	
+	private int limit;
+	
 	public void processDrama() {
 
 		// 총 드라마 컨텐츠 수 ( 페이지에 이용 )
@@ -99,6 +101,8 @@ public class DramaContents {
 							dramaList_ResultSet.getString("SYNOPSIS"), dramaList_ResultSet.getString("RELEASEDATE"));
 					i++;
 				}
+				
+				limit = i;
 
 				PrintTemplate.printFloor();
 
@@ -158,9 +162,21 @@ public class DramaContents {
 	// 선택한 드라마 세부 정보 보기
 	public String showDramaDetail() {
 
-		System.out.print("세부 정보를 볼 드라마의 번호를 입력해주세요 : ");
-		String input = Main.SC.nextLine();
+		String input = "1";
+		boolean isWrongInput = true;
 
+		while (isWrongInput) {
+			
+			System.out.print("세부 정보를 볼 드라마의 번호를 입력해주세요 : ");
+			input = Main.SC.nextLine();
+			
+			if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= limit) {
+				isWrongInput = false;
+			} else {
+				System.out.println("범위 밖 입력입니다.");
+				isWrongInput = true;
+			}
+		}
 		PrintTemplate.printFloor();
 		
 		try {
