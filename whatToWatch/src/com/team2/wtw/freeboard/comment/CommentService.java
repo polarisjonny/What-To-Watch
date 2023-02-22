@@ -7,13 +7,14 @@ import java.sql.ResultSet;
 import com.team2.wtw.freeboard.FreeBoardService;
 import com.team2.wtw.freeboard.GetConnection;
 import com.team2.wtw.main.Main;
+import com.team2.wtw.template.JdbcConncetionTemplate;
 
 public class CommentService {
 	int commentNo = 0;
 	
 	public void writeComment() throws Exception {
 		
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		String sql = "INSERT INTO \"COMMENT\" (COMMENT_NO,BOARD_NO,MEMBER_NO,C_CHAT)VALUES (SEQ_COMMENT_COMMENT_NO.NEXTVAL,?,?,?)";
 		
@@ -36,7 +37,7 @@ public class CommentService {
 	//댓글 출력
 	public void readComment() throws Exception {
 		
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		String sql = "SELECT C_CHAT,MEMBER_NICK,COMMENT_NO FROM \"COMMENT\"  C JOIN MEMBER M ON C.MEMBER_NO = M.MEMBER_NO WHERE BOARD_NO=? ";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -65,7 +66,7 @@ public class CommentService {
 	//댓글 삭제 
 	public void deleteComment() throws Exception {
 		
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
 		
 		System.out.println("삭제할 댓글 번호를 입력하시오");

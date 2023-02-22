@@ -3,8 +3,9 @@ package com.team2.wtw.controller;
 import com.team2.wtw.contents.DramaContents;
 import com.team2.wtw.contents.EntertainmentContents;
 import com.team2.wtw.contents.MovieContents;
-
+import com.team2.wtw.freeboard.FreeBoardMain;
 import com.team2.wtw.main.Main;
+import com.team2.wtw.search.Search;
 import com.team2.wtw.template.PrintTemplate;
 import com.team2.wtw.user.UserService;
 
@@ -42,13 +43,14 @@ public class PageController {
 			// 로그아웃
 			else if (Main.userData.getUserNum() != 0 && (userInput.equals("/2") || userInput.equals("/로그아웃"))) {
 
-				
+				Main.userData.setUserNum(0);
 
 			} 
 			// 검색
 			else if (userInput.equals("/3") || userInput.equals("/검 색")) {
 
-				
+				Search s = new Search();
+				s.processSearch();
 				
 			}
 			// 영화
@@ -78,8 +80,12 @@ public class PageController {
 			// 자유게시판
 			else if (userInput.equals("/7") || userInput.equals("/자유게시판")) {
 
-				
-
+				FreeBoardMain fbm = new FreeBoardMain();
+				try {
+					fbm.boardMain();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				
 			}
 			// 이벤트

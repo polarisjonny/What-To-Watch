@@ -230,6 +230,7 @@ public class MovieContents {
 			PreparedStatement getStarring_pstmt = conn.prepareStatement(getStarring_sql);
 			ResultSet getStarring_ResultSet = getStarring_pstmt.executeQuery();
 
+			System.out.print("출연진 :");
 			while (getStarring_ResultSet.next())
 				System.out.print(getStarring_ResultSet.getString("STARRING_NAME") + " ");
 			System.out.println();
