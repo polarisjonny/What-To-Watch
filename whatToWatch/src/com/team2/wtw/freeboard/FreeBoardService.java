@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.team2.wtw.freeboard.comment.CommentService;
 import com.team2.wtw.main.Main;
+import com.team2.wtw.template.JdbcConncetionTemplate;
 
 public class FreeBoardService {
 	
@@ -19,7 +20,7 @@ public class FreeBoardService {
 	
 	public void BoardList() throws Exception {
 
-		Connection conn = GetConnection.conn();
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		String sql = "SELECT TITLE,MEMBER_NICK,BOARD_NO FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO=M.MEMBER_NO WHERE DELETE_YN='N'";
 		// 게시물 목록 조회
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -43,8 +44,10 @@ public class FreeBoardService {
 	// 게시물 작성
 	public void BoardWrite() throws Exception {
 
+
 	
 		Connection conn = GetConnection.conn();
+
 		String sql = "INSERT INTO FREEBOARD(BOARD_NO,TITLE,CONTENT,MEMBER_NO) VALUES(SEQ_BOARD_BOARD_NO.NEXTVAL,?,?,?)";// 마지막
 																														// 물음표는
 																														// 작성자
@@ -77,6 +80,7 @@ public class FreeBoardService {
 	public void BoardSearch() throws Exception {
 
 		int nick= Main.userData.getUserNum(); // 로그인시 계정 번호
+
 		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE,BOARD_NO FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE BOARD_NO = ?";
 		
 		System.out.println("-------------------------------------------------------------");
@@ -86,6 +90,7 @@ public class FreeBoardService {
 		System.out.println("-------------------------------------------------------------");
 		
 		Connection conn = GetConnection.conn();
+
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, pickNo);
 		pstmt.executeUpdate();
@@ -148,6 +153,7 @@ public class FreeBoardService {
 		int nick = Main.userData.getUserNum() ;// 로그인시 계정 번호
 		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE,BOARD_NO FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE BOARD_NO = ? AND M.MEMBER_NO="
 				+ nick;
+
 		
 		System.out.println("-------------------------------------------------------------");
 		System.out.println("수정할 게시물의 번호를 검색하시오. ");
@@ -156,6 +162,7 @@ public class FreeBoardService {
 		System.out.println("-------------------------------------------------------------");
 		
 		Connection conn = GetConnection.conn();
+
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, pickNo);
 		pstmt.executeUpdate();
@@ -220,6 +227,7 @@ public class FreeBoardService {
 		int nick = Main.userData.getUserNum();// 로그인시 계정번호
 		String sql = "SELECT TITLE,CONTENT,MEMBER_NICK,ENROLL_DATE,BOARD_NO FROM FREEBOARD B JOIN MEMBER M ON B.MEMBER_NO = M.MEMBER_NO WHERE BOARD_NO = ? AND DELETE_YN ='N' AND M.MEMBER_NO="+nick;
 
+
 		System.out.println("-------------------------------------------------------------");
 		System.out.println("삭제할 게시물의 번호를 검색하시오. ");
 		System.out.print("게시물번호 : ");
@@ -227,6 +235,7 @@ public class FreeBoardService {
 		System.out.println("-------------------------------------------------------------");
 		
 		Connection conn = GetConnection.conn();
+
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, pickNo);
 		pstmt.executeUpdate();

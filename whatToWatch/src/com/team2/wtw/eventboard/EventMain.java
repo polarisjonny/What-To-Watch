@@ -1,7 +1,7 @@
 package com.team2.wtw.eventboard;
 
 public class EventMain {
-	public static void main(String[] args) {
+	public void startEventBoard() {
 		EventBoardService service = new EventBoardService();
 		EventView view = new EventView();
 		boolean isFinished = true;
@@ -21,6 +21,6 @@ public class EventMain {
 			default : 
 				System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
 			}
-		}
+		}	
 	}
 }

@@ -1,11 +1,8 @@
-package main;
+package playstart;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import qa.QandA;
 
-public class PlayStartFaqQa {
-	
+public class PlayStart {
 	Faq faq = new Faq();
 	QandA qa = new QandA();
 	public static String Input;

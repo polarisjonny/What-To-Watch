@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import jdbctemplate.JdbcTemplate;
+import Jdbctemplate.JdbcTemplate;
 import main.Main;
 import playstart.PlayStart;
 
-public class FaqFunction {
-		
+//자주묻는질문
+public class Faq {
+	
 	int good;
 	int bad;
 	int sumGood;
@@ -31,17 +32,17 @@ public class FaqFunction {
 		System.out.println();
 		System.out.print("입력 __ ");
 	}
-		
+	
 	//메뉴선택받기
 	public String selectFaqMenu() {
 		String input = Main.SC.nextLine();
 		
 		return input;
 	}
-		
+	
 	//선택에 따른 로직제시
 	public void showSolution(String input) throws Exception {
-			
+		
 		switch(input) {
 		case "1" :
 			System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡS O L U T I O Nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
@@ -113,7 +114,8 @@ public class FaqFunction {
 			System.out.println("		도움됨( " + good + " )/" + "도움안됨( " + bad + " )");
 			goodbadConnection();
 			break;
-		}	
+		}
+		conn.close();
 	}
 	
 	//좋아요 싫어요 DB쿼리문
@@ -130,5 +132,5 @@ public class FaqFunction {
 		conn.close();
 	}
 	
-	}
 }
+	

@@ -17,7 +17,7 @@ public class UserService {
 		UserData data = uv.GetjoinInfo();
 
 		try {
-			Connection conn = JdbcTemplate.getConnection();
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 			String sql = "INSERT INTO MEMBER(MEMBER_NO, SECURITY_Q_NO, STATE_CODE, MEMBER_ID, MEMBER_PWD, MEMBER_NICK, EMAIL, PHONE_NUMBER, SECURITY_A) VALUES(MEMBER_NO.NEXTVAL, ?, 1, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
@@ -53,7 +53,7 @@ public class UserService {
 		UserData data = uv.GetLoginInfo();
 
 		try {
-			Connection conn = JdbcTemplate.getConnection();
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 			String sql = "SELECT MEMBER_NO, MEMBER_ID, MEMBER_PWD, MEMBER_NICK FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, data.getUserId());
@@ -87,7 +87,7 @@ public class UserService {
 		UserData data = uv.findIdInfo();
 
 		try {
-			Connection conn = JdbcTemplate.getConnection();
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 			String sql = "SELECT MEMBER_ID, MEMBER_NICK FROM MEMBER WHERE PHONE_NUMBER = ?";
 
@@ -116,7 +116,7 @@ public class UserService {
 		UserData data = uv.findPwdInfoOneStep();
 
 		try {
-			Connection conn = JdbcTemplate.getConnection();
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 			String sql = "SELECT * FROM MEMBER WHERE MEMBER_ID = ?";
 
@@ -157,7 +157,7 @@ public class UserService {
 		UserData data = uv.findPwdInfoTwoStep();
 
 		try {
-			Connection conn = JdbcTemplate.getConnection();
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 			String sql = "SELECT * FROM MEMBER WHERE MEMBER_ID = ?";
 
@@ -194,7 +194,7 @@ public class UserService {
 		UserData data = uv.GetSearchMemberInfo();
 
 		try {
-			Connection conn = JdbcTemplate.getConnection();
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 			String sql = "SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NICK, SIGN_UP_DATE, EMAIL, PHONE_NUMBER FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, data.getUserId());
@@ -236,7 +236,7 @@ public class UserService {
 		UserData data = uv.getModifiedMemberInfo();
 
 		try {
-			Connection conn = JdbcTemplate.getConnection();
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 			String sql = "UPDATE MEMBER SET MEMBER_NICK = ?, EMAIL = ?, PHONE_NUMBER = ? WHERE MEMBER_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -269,7 +269,7 @@ public class UserService {
 		try {
 			String sql = "UPDATE MEMBER SET STATE_CODE = 3 WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
 
-			Connection conn = JdbcTemplate.getConnection();
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, data.getUserId());
@@ -291,5 +291,30 @@ public class UserService {
 			e.printStackTrace();
 		}
 	}
-
+	
+	//회원 전체 목록 조회
+	public void getAllUser() {
+		try {
+			String sql = "SELECT MEMBER_NO, MEMBER_ID, MEMBER_PWD, MEMBER_NICK FROM MEMBER";
+			
+			Connection conn = JdbcTemplate.getConnection();
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int memberNo = rs.getInt("MEMBER_NO");
+				String memberId = rs.getString("MEMBER_ID");
+				String memberPwd = rs.getString("MEMBER_PWD");
+				String memberNick = rs.getString("MEMBER_NICK");
+				
+				System.out.println(memberNo+" | "+memberId+" | "+memberPwd+" | "+memberNick);
+			}
+		} catch(SQLException e) {
+			System.out.println("값을 잘못 입력하셨습니다.");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
