@@ -60,66 +60,72 @@ public class Menu {
 
     //권한에 따른 메뉴 선택 차별화
     public void choiceMenu() throws Exception {
-        while (true) {
-            printMenu();
-            int choice;
-            try {
-                choice = sc.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
-                sc.next(); // 입력
-                continue;
-            }
+    	ManagerService service = new ManagerService();
+    	boolean isManager = service.checkIfManager();
+    	boolean isFinish = true;
+    	
+    	if(isManager) {
+    		while (isFinish) {
+                printMenu();
+                int choice;
+                try {
+                    choice = sc.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+                    sc.next(); // 입력
+                    continue;
+                }
 
-            switch (choice) {
-                case 0: /* 로그아웃 */ return;
-                case 1: /* 홈화면 */ break;
-                case 2: /* 회원 관리 */
-                    int permissionNo = JdbcTemplate.getPermissionNo(username);
-                    if (permissionNo == 1 || permissionNo == 2) {
-                        memberManagementMenu();
-                    } else {
-                        System.out.println("\n접속 권한이 없습니다.");
-                    }
-                    break;
-                case 3: /* 게시판 관리 */
-                    permissionNo = JdbcTemplate.getPermissionNo(username);
-                    if (permissionNo == 1 || permissionNo == 2 || permissionNo == 3) {
-                        boardManagementMenu();
-                    } else {
-                        System.out.println("\n접속 권한이 없습니다.");
-                    }
-                    break;
-                case 4: /* 리뷰 관리 */
-                    permissionNo = JdbcTemplate.getPermissionNo(username);
-	                if (permissionNo == 1 || permissionNo == 2 || permissionNo == 4) {
-	                    reviewManagementMenu();
-	                } else {
-	                    System.out.println("\n접속 권한이 없습니다.");
-	                }
-	                break;
-	            case 5: /*문의 관리*/
-	                permissionNo = JdbcTemplate.getPermissionNo(username);
-	                if (permissionNo == 1 || permissionNo == 6) {
-	                    questionManagementMenu();
-	                } else {
-	                    System.out.println("\n접속 권한이 없습니다.");
-	                }
-	                break;
-	            case 6: /*이벤트 관리*/
-	                permissionNo = JdbcTemplate.getPermissionNo(username);
-	                if (permissionNo == 1 || permissionNo == 7) {
-	                    eventManagementMenu();
-	                } else {
-	                    System.out.println("\n접속 권한이 없습니다.");
-	                }
-	                break;
-	            case 7: /*컨텐츠 관리*/ 
-	                contentsManagement(); 
-	                break;
-	            default:
-	                System.out.println("잘못 입력하셨습니다. 다시 선택해주세요.");
-	        }
+                switch (choice) {
+                    case 1: isFinish = false; break;
+                    case 2: /* 회원 관리 */
+                        int permissionNo = JdbcTemplate.getPermissionNo(username);
+                        if (permissionNo == 1 || permissionNo == 2) {
+                            memberManagementMenu();
+                        } else {
+                            System.out.println("\n접속 권한이 없습니다.");
+                        }
+                        break;
+                    case 3: /* 게시판 관리 */
+                        permissionNo = JdbcTemplate.getPermissionNo(username);
+                        if (permissionNo == 1 || permissionNo == 2 || permissionNo == 3) {
+                            boardManagementMenu();
+                        } else {
+                            System.out.println("\n접속 권한이 없습니다.");
+                        }
+                        break;
+                    case 4: /* 리뷰 관리 */
+                        permissionNo = JdbcTemplate.getPermissionNo(username);
+    	                if (permissionNo == 1 || permissionNo == 2 || permissionNo == 4) {
+    	                    reviewManagementMenu();
+    	                } else {
+    	                    System.out.println("\n접속 권한이 없습니다.");
+    	                }
+    	                break;
+    	            case 5: /*문의 관리*/
+    	                permissionNo = JdbcTemplate.getPermissionNo(username);
+    	                if (permissionNo == 1 || permissionNo == 6) {
+    	                    questionManagementMenu();
+    	                } else {
+    	                    System.out.println("\n접속 권한이 없습니다.");
+    	                }
+    	                break;
+    	            case 6: /*이벤트 관리*/
+    	                permissionNo = JdbcTemplate.getPermissionNo(username);
+    	                if (permissionNo == 1 || permissionNo == 7) {
+    	                    eventManagementMenu();
+    	                } else {
+    	                    System.out.println("\n접속 권한이 없습니다.");
+    	                }
+    	                break;
+    	            case 7: /*컨텐츠 관리*/ 
+    	                contentsManagement(); 
+    	                break;
+    	            default:
+    	                System.out.println("잘못 입력하셨습니다. 다시 선택해주세요.");
+    	        }
+    	}
+        
 	    }
 	}
     

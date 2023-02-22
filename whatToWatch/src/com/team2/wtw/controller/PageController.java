@@ -13,7 +13,7 @@ public class PageController {
 
 		String userInput = "";
 		UserService us = new UserService();
-		EventMain em = new EventMain();
+		
 
 		while ( !(userInput.equals("/exit")) ) {
 			new PrintTemplate().printHeaderMenu();
@@ -85,8 +85,6 @@ public class PageController {
 			// 이벤트
 			else if (userInput.equals("/8") || userInput.equals("/이벤트")) {
 
-				
-				em.startEventBoard();
 
 			}
 			// 문의게시판
@@ -100,6 +98,10 @@ public class PageController {
 
 				
 
+			}
+			//설정(관리자)
+			else if (userInput.equals("/11") || userInput.equals("/관리자")) {
+				
 			}
 
 		} // while( !(userInput.equals("/exit")) )
