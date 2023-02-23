@@ -18,11 +18,18 @@ public class Qfunction {
 	
 	//문의사항
 	public void writeQ() throws Exception {
-		category = selectCategory();
 		
-		detail = detailCategory(category);
 		
-		writeQuestion();
+		if(Main.userData.getUserNum() == 0)
+			System.out.println("로그인한 유저만 문의를 작성 할 수 있습니다.");
+		else {
+			
+			category = selectCategory();
+		
+			detail = detailCategory(category);
+			
+			writeQuestion();
+		}
 	}
 	
 	//카테고리 선택
@@ -103,8 +110,6 @@ public class Qfunction {
 		System.out.print("내용 : ");
 		String content = Main.SC.nextLine();
 		
-		System.out.print("회원번호 : ");
-		memberNo = Main.SC.nextLine();
 		
 		System.out.print("이전문의번호(없으면 0입력) : ");
 		moreQ = Main.SC.nextLine();
@@ -112,7 +117,7 @@ public class Qfunction {
 		String s = "INSERT INTO QA VALUES(SEQ_Q_NO.NEXTVAL, ?, ?, ?, ?, ?, ?, SYSDATE, SEQ_A_NO.NEXTVAL, ?, ?, SYSDATE, ?, ?)";
 		PreparedStatement pstmt = conn.prepareStatement(s);
 		pstmt.setInt(1, 1);
-		pstmt.setString(2, memberNo);
+		pstmt.setInt(2, Main.userData.getUserNum());
 		pstmt.setString(3, category);
 		pstmt.setString(4, detail);
 		pstmt.setString(5, title);
@@ -135,7 +140,20 @@ public class Qfunction {
 	public void qaBoardList() throws Exception {
 		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 		
-		String s = "SELECT Q_NO, ADMIN_NO, MEMBER_NO, CATEGORY_NAME, DETAIL_CATEGORY_CODE, Q_TITLE, Q_CONTENT, TO_CHAR(Q_DATE, 'YYYY/MM/DD HH24:MI') AS Q_DATE, A_NO, A_TITLE, A_CONTENT, TO_CHAR(A_DATE, 'YYYY/MM/DD HH24:MI') AS A_DATE, DELETE_YN, NVL(MORE_Q_NO, '0') AS MORE_Q_NO FROM QA JOIN QA_CATEGORY ON QA.CATEGORY_CODE = QA_CATEGORY.CATEGORY_CODE";
+		String s = "SELECT Q_NO"
+				+ ", ADMIN_NO"
+				+ ", MEMBER_NO"
+				+ ", CATEGORY_NAME"
+				+ ", DETAIL_CATEGORY_CODE"
+				+ ", Q_TITLE, Q_CONTENT"
+				+ ", TO_CHAR(Q_DATE, 'YYYY/MM/DD HH24:MI') AS Q_DATE"
+				+ ", A_NO"
+				+ ", A_TITLE"
+				+ ", A_CONTENT"
+				+ ", TO_CHAR(A_DATE, 'YYYY/MM/DD HH24:MI') AS A_DATE"
+				+ ", DELETE_YN"
+				+ ", NVL(MORE_Q_NO, '0') AS MORE_Q_NO "
+				+ "FROM QA JOIN QA_CATEGORY ON QA.CATEGORY_CODE = QA_CATEGORY.CATEGORY_CODE";
 		PreparedStatement pstmt = conn.prepareStatement(s);
 		ResultSet rs = pstmt.executeQuery();
 		
@@ -179,7 +197,22 @@ public class Qfunction {
 		System.out.print("문의번호 또는 회원번호를 입력하세요 : ");
 		String search = Main.SC.nextLine();
 		
-		String s = "SELECT Q_NO, ADMIN_NO, MEMBER_NO, CATEGORY_NAME, DETAIL_CATEGORY_NAME, Q_TITLE, Q_CONTENT, TO_CHAR(Q_DATE, 'YYYY/MM/DD HH24:MI') AS Q_DATE, A_NO, A_TITLE, A_CONTENT, TO_CHAR(A_DATE, 'YYYY/MM/DD HH24:MI') AS A_DATE, DELETE_YN, NVL(MORE_Q_NO, '0') AS MORE_Q_NO FROM QA JOIN QA_CATEGORY ON QA.CATEGORY_CODE = QA_CATEGORY.CATEGORY_CODE JOIN DETAIL_CATEGORY ON QA.DETAIL_CATEGORY_CODE = DETAIL_CATEGORY.DETAIL_CATEGORY_CODE WHERE Q_NO = ? OR MEMBER_NO = ?";
+		String s = "SELECT Q_NO"
+				+ ", ADMIN_NO"
+				+ ", MEMBER_NO"
+				+ ", CATEGORY_NAME"
+				+ ", DETAIL_CATEGORY_NAME"
+				+ ", Q_TITLE, Q_CONTENT"
+				+ ", TO_CHAR(Q_DATE, 'YYYY/MM/DD HH24:MI') AS Q_DATE"
+				+ ", A_NO, A_TITLE"
+				+ ", A_CONTENT"
+				+ ", TO_CHAR(A_DATE, 'YYYY/MM/DD HH24:MI') AS A_DATE"
+				+ ", DELETE_YN"
+				+ ", NVL(MORE_Q_NO, '0') AS MORE_Q_NO "
+				+ "FROM QA "
+				+ "JOIN QA_CATEGORY ON QA.CATEGORY_CODE = QA_CATEGORY.CATEGORY_CODE "
+				+ "JOIN DETAIL_CATEGORY ON QA.DETAIL_CATEGORY_CODE = DETAIL_CATEGORY.DETAIL_CATEGORY_CODE "
+				+ "WHERE Q_NO = ? OR MEMBER_NO = ?";
 		PreparedStatement pstmt = conn.prepareStatement(s);
 		pstmt.setString(1, search);
 		pstmt.setString(2, search);

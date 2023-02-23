@@ -7,8 +7,8 @@ public class JdbcTemplate {
 
 	public static Connection getConnection() throws Exception {
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String username = "C##KH";
-		String password = "KH";
+		String username = "C##TEAM2";
+		String password = "TEAM2";
 		Connection conn = DriverManager.getConnection(url, username, password);
 
 		return conn;

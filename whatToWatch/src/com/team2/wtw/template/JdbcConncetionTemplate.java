@@ -9,8 +9,8 @@ public class JdbcConncetionTemplate {
 	public Connection getJdbcConnection() {
 		// DB 연결
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String id = "C##KH";
-		String pw = "KH";
+		String id = "C##TEAM2";
+		String pw = "TEAM2";
 		
 		try {
 			return DriverManager.getConnection(url, id, pw);

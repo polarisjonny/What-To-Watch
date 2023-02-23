@@ -45,7 +45,6 @@ public class Afunction {
 		conn.close();
 		
 		System.out.println("\nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ답변을 작성해 주세요 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ ");
-		writeA();
 	}
 
 	//답변작성

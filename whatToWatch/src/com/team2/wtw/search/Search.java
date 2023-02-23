@@ -331,7 +331,7 @@ public class Search {
 
 	private String showDetail() {
 
-		System.out.print("세부 정보를 볼 영화의 번호를 입력해주세요 : ");
+		System.out.print("세부 정보를 볼 컨텐츠의 번호를 입력해주세요 : ");
 		String input = Main.SC.nextLine();
 
 		PrintTemplate.printFloor();

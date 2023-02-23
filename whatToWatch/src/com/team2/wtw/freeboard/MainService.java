@@ -41,6 +41,7 @@ public class MainService {
 					if(Main.userData.getUserNum()==0) 
 						{
 							System.out.println("*******로그인하고 이용하세요 ㅜㅜ********");
+							new MainService().sleep();
 						}else{fs.BoardWrite();}   break;
 					
 		case "2" :  
