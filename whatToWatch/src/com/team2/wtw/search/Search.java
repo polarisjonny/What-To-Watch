@@ -331,9 +331,22 @@ public class Search {
 
 	private String showDetail() {
 
-		System.out.print("세부 정보를 볼 컨텐츠의 번호를 입력해주세요 : ");
-		String input = Main.SC.nextLine();
-
+		int inputNum = 0;
+		
+		boolean isWrongInput = true;
+		while(isWrongInput) {
+			System.out.print("세부 정보를 볼 컨텐츠의 번호를 입력해주세요 : ");
+			String input = Main.SC.nextLine();
+			
+			try {
+				inputNum = Integer.parseInt(input);
+				isWrongInput = false;
+			} catch(Exception e) {
+				System.out.println("잘못 입력하셨습니다.");
+			}
+		}
+		
+		
 		PrintTemplate.printFloor();
 
 		try {
@@ -343,7 +356,7 @@ public class Search {
 			String movieDetail_sql = "SELECT CONTENTS_NO\r\n" + "    ,DIRECTOR_NO\r\n" + "    ,COUNTRY_NO\r\n"
 					+ "    ,CATEGORY_NO\r\n" + "    ,CONTENTS_TITLE\r\n" + "    ,SYNOPSIS\r\n"
 					+ "    ,TO_CHAR(RELEASE_DATE, 'YY/MM/DD') AS RELEASE_DATE\r\n" + "FROM CONTENTS\r\n"
-					+ "WHERE CONTENTS_NO = " + searchResultList.get(Integer.parseInt(input) - 1);
+					+ "WHERE CONTENTS_NO = " + searchResultList.get(inputNum - 1);
 
 			PreparedStatement movieDetail_pstmt = conn.prepareStatement(movieDetail_sql);
 			ResultSet movieDetail_ResultSet = movieDetail_pstmt.executeQuery();
@@ -361,7 +374,7 @@ public class Search {
 			System.out.print(contents_title);
 
 			// 리뷰 평균
-			String avgScore = getAvgScore(searchResultList.get(Integer.parseInt(input) - 1));
+			String avgScore = getAvgScore(searchResultList.get(inputNum- 1));
 			System.out.println("\t\t\t\t 평균 리뷰평점 : " + avgScore);
 
 			// 장르
@@ -416,7 +429,7 @@ public class Search {
 			e.printStackTrace();
 		}
 
-		return searchResultList.get(Integer.parseInt(input) - 1);
+		return searchResultList.get(inputNum - 1);
 
 	}
 

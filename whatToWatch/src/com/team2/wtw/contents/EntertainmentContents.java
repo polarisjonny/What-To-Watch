@@ -14,9 +14,9 @@ import com.team2.wtw.template.PrintTemplate;
 public class EntertainmentContents {
 
 	private String[] EntList = new String[10];
-	
+
 	private int entCount;
-	
+
 	private int limit;
 
 	public void processEnt() {
@@ -35,7 +35,7 @@ public class EntertainmentContents {
 		}
 		// 세부 보기한 컨텐츠의 CONTENTS_NO. choice에 저장.
 		choice = showEntDetail();
-		
+
 		// 리뷰 기능으로
 		new Review().processReview(choice);
 	}
@@ -90,9 +90,9 @@ public class EntertainmentContents {
 				entList_pstmt.setInt(1, start);
 				entList_pstmt.setInt(2, end);
 				ResultSet enttList_ResultSet = entList_pstmt.executeQuery();
-				
+
 				PrintTemplate.printFloor();
-				
+
 				System.out.println("[예능]");
 				int i = 0;
 				while (enttList_ResultSet.next()) {
@@ -101,7 +101,7 @@ public class EntertainmentContents {
 							enttList_ResultSet.getString("SYNOPSIS"), enttList_ResultSet.getString("RELEASEDATE"));
 					i++;
 				}
-				
+
 				limit = i;
 
 				PrintTemplate.printFloor();
@@ -161,15 +161,15 @@ public class EntertainmentContents {
 
 	// 선택한 예능 세부 정보 보기
 	public String showEntDetail() {
-		
+
 		String input = "1";
 		boolean isWrongInput = true;
 
 		while (isWrongInput) {
-			
+
 			System.out.print("세부 정보를 볼 예능의 번호를 입력해주세요 : ");
 			input = Main.SC.nextLine();
-			
+
 			if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= limit) {
 				isWrongInput = false;
 			} else {
@@ -179,7 +179,7 @@ public class EntertainmentContents {
 		}
 
 		PrintTemplate.printFloor();
-		
+
 		try {
 			// DB 연결
 			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
@@ -203,6 +203,13 @@ public class EntertainmentContents {
 
 			// 제목
 			System.out.println(contents_title);
+
+			// 리뷰 평균
+			String avgScore = getAvgScore(EntList[Integer.parseInt(input) - 1]);
+			if (avgScore == null)
+				System.out.println("\t\t\t\t 평균 리뷰평점 : 0");
+			else
+				System.out.println("\t\t\t\t 평균 리뷰평점 : " + avgScore);
 
 			// 장르
 			String getGenre_sql = "SELECT GENRE_NAME\r\n" + "FROM CONTENTS_GENRE CG\r\n"
@@ -260,5 +267,33 @@ public class EntertainmentContents {
 		return EntList[Integer.parseInt(input) - 1];
 
 	} // method | chooseDrama
+
+	// 리뷰 평균 평점 구하기
+	public String getAvgScore(String contentsNo) {
+
+		String avgScore = "";
+
+		Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
+
+		String getAvg_sql = "SELECT AVG(REVIEW_SCORE)\r\n" + "FROM REVIEW\r\n" + "WHERE CONTENTS_NO = ?";
+
+		try {
+
+			PreparedStatement getAvg_pstmt = conn.prepareStatement(getAvg_sql);
+			getAvg_pstmt.setString(1, contentsNo);
+
+			ResultSet avgResultSet = getAvg_pstmt.executeQuery();
+
+			avgResultSet.next();
+
+			avgScore = avgResultSet.getString("AVG(REVIEW_SCORE)");
+
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return avgScore;
+	}
 
 }
