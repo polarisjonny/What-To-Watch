@@ -13,8 +13,21 @@ public class SanctionMemberData {
 	public Timestamp expirationDate;
 	public int adminNo;
 	public int permissionNo;
+	public int sancCatNo;
+	public int sanctionNo;
 	
-	
+	public int getSanctionNo() {
+		return sanctionNo;
+	}
+	public void setSanctionNo(int sanctionNo) {
+		this.sanctionNo = sanctionNo;
+	}
+	public int getSancCatNo() {
+		return sancCatNo;
+	}
+	public void setSancCatNo(int sancCatNo) {
+		this.sancCatNo = sancCatNo;
+	}
 	public int getMemberNo() {
 		return memberNo;
 	}

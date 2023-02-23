@@ -20,7 +20,7 @@ public class MemberManage {
 		//제제회원 조회
 		sm.getSanctionInfo();
 		//제재회원 번호 선택 후 종료일 재설정 
-		sm.inputExpirationDate();
+//		sm.inputExpirationDate();
 		
 	}
 	

@@ -42,8 +42,7 @@ public class Menu {
 
 	// 관리자페이지 메뉴판
 	public void printMenu() {
-		System.out.println("========== 관리자 페이지 ==========");
-		System.out.println("0. 로그아웃");
+		System.out.println("\n========== 관리자 페이지 ==========");
 		System.out.println("1. 홈화면");
 		System.out.println("2. 회원 관리");
 		System.out.println("3. 게시판 관리");
@@ -139,7 +138,7 @@ public class Menu {
 
 		System.out.println("0. 관리자 홈");
 		System.out.println("1. 일반회원 조회");
-		System.out.println("2. 제재회원");
+		System.out.println("2. 제재회원 조회");
 		System.out.println("3. 관리자");
 		System.out.print("메뉴 선택 : ");
 		String memberType = sc.nextLine();
@@ -164,11 +163,12 @@ public class Menu {
 	// 게시판관리 메뉴
 	public void boardManagementMenu() throws Exception {
 
-		System.out.println("\n환영합니다 관리자님. 게시판관리 페이지입니다.");
+		System.out.println("\n환영합니다 관리자님. 게시판관리 페이지입니다.\n");
 
 		System.out.println("0. 관리자 홈");
 		System.out.println("1. 게시판 관리");
 		System.out.println("2. 제재 게시판 목록");
+		System.out.print("메뉴 선택 : ");
 		String boardType = sc.nextLine();
 		switch (boardType) {
 		case "0":
@@ -188,11 +188,12 @@ public class Menu {
 	// 리뷰관리 메뉴
 	public void reviewManagementMenu() throws Exception {
 
-		System.out.println("\n환영합니다 관리자님. 리뷰관리 페이지입니다.");
+		System.out.println("\n환영합니다 관리자님. 리뷰관리 페이지입니다.\n");
 
 		System.out.println("0. 관리자 홈");
 		System.out.println("1. 리뷰 관리");
 		System.out.println("2. 제재 리뷰 목록");
+		System.out.print("메뉴 선택 : ");
 		String reviewType = sc.nextLine();
 		switch (reviewType) {
 		case "0":
@@ -215,8 +216,7 @@ public class Menu {
 		System.out.println("\n환영합니다 관리자님. 문의관리 페이지입니다.\n");
 
 		System.out.println("0. 관리자 홈");
-		System.out.println("1. 자주묻는질문");
-		System.out.println("2. 문의게시판");
+		System.out.println("1. 문의게시판 관리");
 		System.out.print("메뉴 선택 : ");
 		String questionType = sc.nextLine();
 		switch (questionType) {
@@ -224,9 +224,6 @@ public class Menu {
 			choiceMenu();
 			break;
 		case "1":
-			ps.faqPlayStart();
-			break;
-		case "2":
 			// 문의게시판 확인
 			ps.qaPlayStart();
 			// 문의게시판 답변
@@ -240,11 +237,12 @@ public class Menu {
 
 	// 이벤트관리 메뉴
 	public void eventManagementMenu() throws Exception {
-		System.out.println("\n환영합니다 관리자님. 이벤트관리 페이지입니다.");
+		System.out.println("\n환영합니다 관리자님. 이벤트관리 페이지입니다.\n");
 
 		System.out.println("0. 관리자 홈");
 		System.out.println("1. 이벤트 추가/삭제/수정");
-		System.out.println("2. 점수 조회");
+//		System.out.println("2. 점수 조회");
+		System.out.print("메뉴 선택 : ");
 		String eventType = sc.nextLine();
 
 		switch (eventType) {
@@ -252,11 +250,11 @@ public class Menu {
 			choiceMenu();
 			break;
 		case "1":
-			em.inputAddEvent();
+			em.eventManage();
 			break;
-		case "2":
-			em.printEventScore();
-			break;
+//		case "2":
+//			em.printEventScore();
+//			break;
 		}
 
 	}
@@ -264,12 +262,12 @@ public class Menu {
 	// 컨텐츠관리 메뉴
 	public void contentsManagement() throws Exception {
 
-		System.out.println("\n환영합니다 관리자님. 컨텐츠관리 페이지입니다.");
+		System.out.println("\n환영합니다 관리자님. 컨텐츠관리 페이지입니다.\n");
 
 		System.out.println("0. 관리자 홈");
-		System.out.println("1. 드라마 추가/수정/삭제");
-		System.out.println("2. 예능 추가/수정/삭제");
-		System.out.println("3. 영화 추가/수정/삭제");
+		System.out.println("1. 컨텐츠 추가/수정/삭제");
+//		System.out.println("2. 예능 추가/수정/삭제");
+//		System.out.println("3. 영화 추가/수정/삭제");
 		System.out.print("메뉴 선택 : ");
 		String contentsType = sc.nextLine();
 
@@ -278,17 +276,17 @@ public class Menu {
 			choiceMenu();
 			break;
 		case "1":
-			dc.showDramaContents();
+//			dc.showDramaContents();
 			cm.contentsManage();
 			break;
-		case "2":
-			ec.showEntContents();
-			cm.contentsManage();
-			break;
-		case "3":
-			mc.showMovieContents();
-			cm.contentsManage();
-			break;
+//		case "2":
+////			ec.showEntContents();
+//			cm.contentsManage();
+//			break;
+//		case "3":
+////			mc.showMovieContents();
+//			cm.contentsManage();
+//			break;
 		}
 
 	}

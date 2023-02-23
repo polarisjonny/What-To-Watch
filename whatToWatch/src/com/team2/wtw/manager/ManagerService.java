@@ -29,7 +29,7 @@ public class ManagerService {
 				
 				
 				if(permissionNum >= 1 && permissionNum <= 7) {
-					System.out.println(adminName+" 관리자님, 환영합니다:)");
+					System.out.println("\n"+adminName+" 관리자님, 환영합니다:)");
 					
 					return true;
 					

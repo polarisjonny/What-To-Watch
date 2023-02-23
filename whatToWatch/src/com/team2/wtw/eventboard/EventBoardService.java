@@ -42,6 +42,35 @@ public class EventBoardService {
 		}
 	}
 	
+	//관리자용 이벤트 게시판 목록 조회
+	public void printEventBoardListAdmin() {
+		System.out.println("================== 이벤트 게시판 ===================");
+		
+		try {
+			String sql = "SELECT EVENT_NO, EVENT_TITLE FROM EVENTBOARD";
+			
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int eventNumber = rs.getInt("EVENT_NO");
+				String eventTitle = rs.getString("EVENT_TITLE");
+				
+				System.out.printf("%d || %s\n", eventNumber, eventTitle);
+				
+			}
+			conn.close();
+			
+		} 
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	//이벤트 게시판 내용 상세
 	public void printEventBoardDetail() {
 		EventView ev = new EventView();

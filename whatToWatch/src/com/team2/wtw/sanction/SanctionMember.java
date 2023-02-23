@@ -46,20 +46,21 @@ public class SanctionMember {
 	        try {
 	            PreparedStatement pstmt = conn.prepareStatement(query);
 	            ResultSet rs = pstmt.executeQuery();
+	            System.out.printf("%-10s%-15s%-20s%-20s%-10s%n",
+	            		"MEMBER_NO","SANC_TYPE", "SANCTION_DATE", "EXPIRATION_DATE", "ADMIN_NO");
 	            while (rs.next()) {
 	                smd.setMemberNo(rs.getInt("MEMBER_NO"));
-	                smd.setMemberId(rs.getString("MEMBER_ID"));
 	                smd.setSancType(rs.getString("SANC_TYPE"));
-	                smd.setSancCatName(rs.getString("SANC_CAT_NAME"));
 	                smd.setSanctionDate(rs.getTimestamp("SANCTION_DATE"));
 	                smd.setExpirationDate(rs.getTimestamp("EXPIRATION_DATE"));
 	                smd.setAdminNo(rs.getInt("ADMIN_NO"));
 	                
+	                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	                
 	                // 정보 출력
-	                System.out.printf("%-10s%-15s%-15s%-25s%-20s%-20s%-10s%n",
-	                        "MEMBER_NO", "MEMBER_ID", "SANC_TYPE", "SANC_CAT_NAME", "SANCTION_DATE", "EXPIRATION_DATE", "ADMIN_NO");
-	                System.out.printf("%-10d%-15s%-15s%-25s%-20s%-20s%-10d%n",
-	                        smd.getMemberNo(), smd.getMemberId(), smd.getSancType(), smd.getSancCatName(), smd.getSanctionDate(), smd.getExpirationDate(), smd.getAdminNo());
+	                System.out.printf("%-10d%-15s%-20s%-20s%-10d%n",
+	                        smd.getMemberNo(), smd.getSancType(), dateFormat.format(smd.getSanctionDate()),
+	                        dateFormat.format(smd.getExpirationDate()), smd.getAdminNo());
 	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
@@ -73,8 +74,9 @@ public class SanctionMember {
 	    }
 	    
 	    //종료일 설정
-	    public void updateSanctionExpirationDate(Connection conn, int memberNo, LocalDate sanctionDate, LocalDate newExpirationDate) throws SQLException {
+	    public void updateSanctionExpirationDate(int memberNo, LocalDate sanctionDate, LocalDate newExpirationDate) throws SQLException {
 	        // 회원에 대한 기존 기록 및 제재일 확인
+	    	Connection conn = jt.getConnection();
 	        String selectSql = "SELECT * FROM MEMBER_SANCTION WHERE MEMBER_NO = ? AND SANCTION_DATE = ?";
 	        try (PreparedStatement selectStmt = conn.prepareStatement(selectSql)) {
 	            selectStmt.setInt(1, memberNo);
@@ -112,7 +114,7 @@ public class SanctionMember {
 	        System.out.println("\n-------제재회원 종료일 설정-------");
 	        System.out.print("제재 회원 번호 선택 : ");
 	        int memberNo = sc.nextInt();
-	        System.out.println("제재 종료일 입력 (yyyy-MM-dd): ");
+	        System.out.print("제재 종료일 입력 (yyyy-MM-dd): ");
 	        String newDateStr = sc.next();
 
 	        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -126,7 +128,7 @@ public class SanctionMember {
 
 	        try {
 	            Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
-	            updateSanctionExpirationDate(conn, memberNo, new java.sql.Date(newDate.getTime()).toLocalDate(), LocalDate.parse(newDateStr));
+	            updateSanctionExpirationDate(memberNo, new java.sql.Date(newDate.getTime()).toLocalDate(), LocalDate.parse(newDateStr));
 	            System.out.println("제재 종료일시가 성공적으로 업데이트 되었습니다.");
 	        } catch (SQLException e) {
 	            System.out.println("제재 종료일시 업데이를 실패했습니다.");
@@ -134,20 +136,27 @@ public class SanctionMember {
 	        }
 	    }
 	    
+	    static Connection conn;
 	    
 	  //회원번호 입력해서 제재하기
-	    public static void inputSanction() {
-	        Connection conn = null;
-	        conn = new JdbcConncetionTemplate().getJdbcConnection();
+	    public static void inputSanction() throws Exception {
+	        conn = jt.getConnection();
 	        
 	        Scanner sc = new Scanner(System.in);
 	        System.out.println("\n-------회원 제재-------");
-	        System.out.print("회원 번호 입력 : ");
+	        System.out.println("1 - 스팸홍보/도배글");
+	        System.out.println("2 - 욕설/생명경시/혐오/차별적 표현");
+	        System.out.println("3 - 음란물");
+	        System.out.println("4 - 불법정보 포함");
+	        System.out.println("5 - 기타");
+	        
+	        System.out.print("\n회원 번호 입력 : ");
 	        int memberNo = sc.nextInt();
+	        sc.nextLine(); // 줄바꿈
 	        System.out.print("제재 유형 입력(리뷰/게시글) : ");
 	        String sancType = sc.nextLine();
 	        System.out.print("제재 사유 번호 선택 : ");
-	        int sancCatName = sc.nextInt();
+	        int sancCatNo = sc.nextInt();
 	        System.out.print("제재 기간 입력(영구제재일 경우 9999-12-31 입력) : ");
 	        String expirationDateStr = sc.next();
 	        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -155,23 +164,31 @@ public class SanctionMember {
 	        try {
 	            expirationDate = dateFormat.parse(expirationDateStr);
 	        } catch (ParseException e) {
-	            System.out.println("잘못된 날짜 형식입니다. ('yyyy-MM-dd' format.)");
+	            System.out.println("잘못된 날짜 형식입니다. ('yyyy-MM-dd' 형식을 지켜주세요)");
 	            return;
 	        }
 	        System.out.print("관리자 번호 입력 : ");
 	        int adminNo = sc.nextInt();
 
 	        try {
-	            String query = "INSERT INTO MEMBER_SANCTION (MEMBER_NO, SANC_TYPE, SANC_CAT_NAME, SANCTION_DATE, EXPIRATION_DATE, ADMIN_NO) VALUES (?, ?, ?, ?, ?, ?)";
+	        	String query;
+				if (sancType.equals("리뷰")) {
+	                query = "INSERT INTO MEMBER_SANCTION (SANCTION_NO, MEMBER_NO, SANC_TYPE, SANC_CAT_NO, BOARD_SANC_NO,REVIEW_SANC_NO, SANCTION_DATE, EXPIRATION_DATE, ADMIN_NO) " + 
+	                        "VALUES (SEQ_SANCTION_NO.NEXTVAL, ?, ?, ?, null,SEQ_REVIEW_SANC_NO.NEXTVAL, ?, ?, ?)";
+	            } else {
+	                query = "INSERT INTO MEMBER_SANCTION (SANCTION_NO, MEMBER_NO, SANC_TYPE, SANC_CAT_NO, BOARD_SANC_NO,REVIEW_SANC_NO, SANCTION_DATE, EXPIRATION_DATE, ADMIN_NO) " + 
+	                        "VALUES (SEQ_SANCTION_NO.NEXTVAL, ?, ?, ?,SEQ_BOARD_SANC_NO.NEXTVAL, null, ?, ?, ?)";
+	            }
 	            PreparedStatement pstmt = conn.prepareStatement(query);
-	            pstmt.setInt(1, memberNo);
-	            pstmt.setString(2, sancType);
-	            pstmt.setInt(3, sancCatName);
-	            pstmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
-	            pstmt.setTimestamp(5, new Timestamp(expirationDate.getTime()));
-	            pstmt.setInt(6, adminNo);
-	            pstmt.executeUpdate();
-	            System.out.println("제재가 성공적으로 처리되었습니다.");
+		
+			     pstmt.setInt(1, memberNo);
+			     pstmt.setString(2, sancType);
+			     pstmt.setInt(3, sancCatNo);
+			     pstmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+			     pstmt.setTimestamp(5, new Timestamp(expirationDate.getTime()));
+			     pstmt.setInt(6, adminNo);
+			     pstmt.executeUpdate();
+	            System.out.println("\n제재가 성공적으로 처리되었습니다.");
 	        } catch (SQLException e) {
 	            System.out.println("제재 처리를 실패했습니다.");
 	            e.printStackTrace();
@@ -193,12 +210,11 @@ public class SanctionMember {
 	        
 	        while (rs.next()) {
 	            int boardSanctionNo = rs.getInt("BOARD_SANC_NO");
-	            int boardNo = rs.getInt("BOARD_NO");
 	            int sancCatNo = rs.getInt("SANC_CAT_NO");
 	            
-	            System.out.print("제재 게시물 번호 : " + boardSanctionNo);
-	            System.out.print("제재 사유 번호 : " + sancCatNo);
-	            System.out.print("--------------------");
+	            System.out.println("제재 게시물 번호 : " + boardSanctionNo);
+	            System.out.println("제재 사유 번호 : " + sancCatNo);
+	            System.out.println("--------------------");
 	        }
 	        
 	        rs.close();
@@ -214,10 +230,9 @@ public class SanctionMember {
 	        
 	        while (rs.next()) {
 	            int reviewSanctionNo = rs.getInt("REVIEW_SANC_NO");
-	            int reviewNo = rs.getInt("REVIEW_NO");
 	            int sancCatNo = rs.getInt("SANC_CAT_NO");
 	            
-	            System.out.print("제재 리뷰 번호 : " + reviewSanctionNo);
+	            System.out.println("제재 리뷰 번호 : " + reviewSanctionNo);
 	            System.out.println("제재 사유 번호 : " + sancCatNo);
 	            System.out.println("--------------------");
 	        }
