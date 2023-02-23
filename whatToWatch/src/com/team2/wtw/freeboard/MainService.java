@@ -50,14 +50,12 @@ public class MainService {
 					if(Main.userData.getUserNum()==0) 
 						{
 							System.out.println("********로그인하고 이용하세요 ㅜㅜ********");
-							new MainService().sleep();
 						}else{fs.edit();}   break;
 					
 		case "4" : 
 					if(Main.userData.getUserNum()==0) 
 						{
 							System.out.println("********로그인하고 이용하세요 ㅜㅜ********");
-							new MainService().sleep();
 						}else {fs.boardDelect();}    break;
 		default :  System.out.println("잘못입력하였습니다");
 		}
