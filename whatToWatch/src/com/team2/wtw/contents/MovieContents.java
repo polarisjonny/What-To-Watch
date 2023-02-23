@@ -69,6 +69,7 @@ public class MovieContents {
 	// 영화 목록 출력하기
 	public void showMovieContents() {
 
+		
 		int start = 0;
 		int end = 10;
 

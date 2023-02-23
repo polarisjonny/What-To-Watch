@@ -225,12 +225,12 @@ public class Menu {
 			break;
 		case "1":
 			// 문의게시판 확인
-			ps.qaPlayStart();
+			new Temp().qaPlayStart();
 			// 문의게시판 답변
-			af.answerList();
+//			af.answerList();
 			af.writeA();
-			af.checkAnswer();
 
+			break;
 		}
 
 	}
@@ -280,11 +280,11 @@ public class Menu {
 			cm.contentsManage();
 			break;
 //		case "2":
-////			ec.showEntContents();
+//			ec.showEntContents();
 //			cm.contentsManage();
 //			break;
 //		case "3":
-////			mc.showMovieContents();
+//			mc.showMovieContents();
 //			cm.contentsManage();
 //			break;
 		}

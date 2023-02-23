@@ -54,7 +54,7 @@ public class UserService {
 
 		try {
 			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
-			String sql = "SELECT MEMBER_NO, MEMBER_ID, MEMBER_PWD, MEMBER_NICK FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
+			String sql = "SELECT MEMBER_NO, MEMBER_ID, MEMBER_PWD, MEMBER_NICK, STATE_CODE FROM MEMBER WHERE MEMBER_ID = ? AND MEMBER_PWD = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, data.getUserId());
 			pstmt.setString(2, data.getUserPwd());
@@ -65,10 +65,16 @@ public class UserService {
 			if (rs.next()) {
 				int memberNum = rs.getInt("MEMBER_NO");
 				String nick = rs.getString("MEMBER_NICK");
+				int member_state = rs.getInt("STATE_CODE");
 
-				Main.userData.setUserNum(memberNum);
-				
-				System.out.println(nick + "님 환영합니다:)");
+				if(member_state == 2 || member_state == 3) {
+					System.out.println("로그인 실패");
+					Main.userData.setUserNum(0);
+				} else {
+					Main.userData.setUserNum(memberNum);
+					
+					System.out.println(nick + "님 환영합니다:)");
+				}
 
 			}
 			//아이디나 비밀번호가 없을 경우
@@ -288,7 +294,7 @@ public class UserService {
 		UserView uv = new UserView();
 		
 		try {
-			String sql = "UPDATE MEMBER SET STATE_CODE = 3, MEMBER_NO = 0 WHERE MEMBER_NO = ?";
+			String sql = "UPDATE MEMBER SET STATE_CODE = 3WHERE MEMBER_NO = ?";
 
 			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
 
@@ -299,6 +305,7 @@ public class UserService {
 
 			if (result == 1) {
 				System.out.println("회원 탈퇴 성공");
+				Main.userData.setUserNum(0);
 			} else {
 				System.out.println("회원 탈퇴 실패");
 			}
@@ -325,6 +332,17 @@ public class UserService {
 			
 			ResultSet rs = pstmt.executeQuery();
 			
+			if(rs.next()) {
+				int memberNo = rs.getInt("MEMBER_NO");
+				String memberId = rs.getString("MEMBER_ID");
+				String memberPwd = rs.getString("MEMBER_PWD");
+				String memberNick = rs.getString("MEMBER_NICK");
+				
+				System.out.println(memberNo+" | "+memberId+" | "+memberPwd+" | "+memberNick);
+			}
+			else {
+				System.out.println("회원이 없습니다...");
+			}
 			while(rs.next()) {
 				int memberNo = rs.getInt("MEMBER_NO");
 				String memberId = rs.getString("MEMBER_ID");
