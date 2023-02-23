@@ -76,8 +76,6 @@ public class Review {
 		String riviewContent = "";
 		String riviewScore = "";
 		
-		System.out.println(Main.userData.getUserNum());
-		
 		System.out.print("리뷰 : ");
 		riviewContent = Main.SC.nextLine();
 		System.out.print("평점 : ");

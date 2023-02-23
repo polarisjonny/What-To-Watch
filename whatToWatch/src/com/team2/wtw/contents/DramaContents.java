@@ -16,9 +16,9 @@ public class DramaContents {
 	private String[] dramaList = new String[10];
 
 	private int dramaCount;
-	
+
 	private int limit;
-	
+
 	public void processDrama() {
 
 		// 총 드라마 컨텐츠 수 ( 페이지에 이용 )
@@ -35,7 +35,7 @@ public class DramaContents {
 		}
 		// 세부 보기한 컨텐츠의 CONTENTS_NO. choice에 저장.
 		choice = showDramaDetail();
-		
+
 		// 리뷰 기능으로
 		new Review().processReview(choice);
 	}
@@ -92,16 +92,17 @@ public class DramaContents {
 				ResultSet dramaList_ResultSet = dramaList_pstmt.executeQuery();
 
 				PrintTemplate.printFloor();
-				
+
 				System.out.println("[드라마]");
 				int i = 0;
 				while (dramaList_ResultSet.next()) {
 					dramaList[i] = dramaList_ResultSet.getString("CONTENTS_NO");
-					System.out.printf("%d. %s \t\t %s \t\t %s\n", i + 1, dramaList_ResultSet.getString("CONTENTS_TITLE"),
-							dramaList_ResultSet.getString("SYNOPSIS"), dramaList_ResultSet.getString("RELEASEDATE"));
+					System.out.printf("%d. %s \t\t %s \t\t %s\n", i + 1,
+							dramaList_ResultSet.getString("CONTENTS_TITLE"), dramaList_ResultSet.getString("SYNOPSIS"),
+							dramaList_ResultSet.getString("RELEASEDATE"));
 					i++;
 				}
-				
+
 				limit = i;
 
 				PrintTemplate.printFloor();
@@ -166,10 +167,10 @@ public class DramaContents {
 		boolean isWrongInput = true;
 
 		while (isWrongInput) {
-			
+
 			System.out.print("세부 정보를 볼 드라마의 번호를 입력해주세요 : ");
 			input = Main.SC.nextLine();
-			
+
 			if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= limit) {
 				isWrongInput = false;
 			} else {
@@ -178,7 +179,7 @@ public class DramaContents {
 			}
 		}
 		PrintTemplate.printFloor();
-		
+
 		try {
 			// DB 연결
 			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
@@ -202,6 +203,13 @@ public class DramaContents {
 
 			// 제목
 			System.out.println(contents_title);
+
+			// 리뷰 평균
+			String avgScore = getAvgScore(dramaList[Integer.parseInt(input) - 1]);
+			if (avgScore == null)
+				System.out.println("\t\t\t\t 평균 리뷰평점 : 0");
+			else
+				System.out.println("\t\t\t\t 평균 리뷰평점 : " + avgScore);
 
 			// 장르
 			String getGenre_sql = "SELECT GENRE_NAME\r\n" + "FROM CONTENTS_GENRE CG\r\n"
@@ -260,4 +268,32 @@ public class DramaContents {
 
 	} // method | chooseDrama
 
+	// 리뷰 평균 평점 구하기
+		public String getAvgScore(String contentsNo) {
+
+			String avgScore = "";
+
+			Connection conn = new JdbcConncetionTemplate().getJdbcConnection();
+
+			String getAvg_sql = "SELECT AVG(REVIEW_SCORE)\r\n" + "FROM REVIEW\r\n" + "WHERE CONTENTS_NO = ?";
+
+			try {
+
+				PreparedStatement getAvg_pstmt = conn.prepareStatement(getAvg_sql);
+				getAvg_pstmt.setString(1, contentsNo);
+
+				ResultSet avgResultSet = getAvg_pstmt.executeQuery();
+
+				avgResultSet.next();
+
+				avgScore = avgResultSet.getString("AVG(REVIEW_SCORE)");
+
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			return avgScore;
+		}
+	
 }

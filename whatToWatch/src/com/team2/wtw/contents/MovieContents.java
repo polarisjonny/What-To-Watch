@@ -207,7 +207,10 @@ public class MovieContents {
 
 			// 리뷰 평균
 			String avgScore = getAvgScore(movieList[Integer.parseInt(input) - 1]);
-			System.out.println("\t\t\t\t 평균 리뷰평점 : " + avgScore);
+			if(avgScore == null)
+				System.out.println("\t\t\t\t 평균 리뷰평점 : 0");
+			else
+				System.out.println("\t\t\t\t 평균 리뷰평점 : " + avgScore);
 
 			// 장르
 			String getGenre_sql = "SELECT GENRE_NAME\r\n" + "FROM CONTENTS_GENRE CG\r\n"
