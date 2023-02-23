@@ -1,7 +1,7 @@
 package com.team2.wtw.qa;
 
-import com.team2.wtw.faq.Main;
 import com.team2.wtw.faq.PlayStart;
+import com.team2.wtw.main.Main;
 
 public class PlayAllFunction {
 
